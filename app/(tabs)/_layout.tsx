@@ -1,9 +1,31 @@
-import { Tabs } from 'expo-router';
+import { Image, Text, View } from "react-native";
+import { Redirect,Tabs } from 'expo-router';
 import React, { useEffect } from 'react';
 
 import * as ScreenOrientation from 'expo-screen-orientation';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import icons from '../../constants/icons';
 
+
+// Define the interface for TabIcon props
+interface TabIconProps {
+  icon: any;
+  color: string;
+  focused: boolean;
+}
+
+// TabIcon Component
+const TabIcon: React.FC<TabIconProps> = ({ icon, color, focused }) => {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+      <Image
+        source={icon}
+        resizeMode="contain"
+        style={{ tintColor: color, width: 24, height: 24 }}
+      />
+    </View>
+  );
+};
 
 export default function TabLayout() {
 
@@ -20,13 +42,26 @@ export default function TabLayout() {
   }, []);
 
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+    <Tabs  screenOptions={{
+      tabBarActiveTintColor: "#FFA001",
+      tabBarInactiveTintColor: "#CDCDE0",
+      tabBarShowLabel: false,
+      tabBarStyle: {
+        height: 84,
+      },
+    }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
-        }}
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.home}
+                color={color}
+                focused={focused}
+              />
+            ),
+          }}
       />
       <Tabs.Screen
         name="settings"
