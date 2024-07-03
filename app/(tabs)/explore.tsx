@@ -1,9 +1,11 @@
+import { Link } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function DetailsScreen() {
+export default function ExploreScreen() {
   return (
     <View style={styles.container}>
-      <Text>Details</Text>
+      <Text>explore</Text>
+      <Link href="/details">View details</Link>
     </View>
   );
 }
