@@ -49,7 +49,7 @@ const HomeScreen: React.FC = () => {
           </ImageBackground>
         </Card>
 
-        {/* Additional trip cards can be added here */}
+        {}
       </View>
     </ScrollView>
   );
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 16,
-    marginBottom: 20,
+    marginBottom: 16,
     borderRadius: 8,
   },
   headerTextContainer: {
@@ -78,11 +78,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#2F2F2F',
+    marginBottom: 8,
   },
   secondGreeting: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#888888',
+    marginBottom: 4,
   },
   thirdGreeting: {
     fontSize: 16,
@@ -111,11 +113,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    color: '#2F2F2F',
+    marginBottom: 16,
   },
   tabs: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   tabButton: {
     flex: 1,
