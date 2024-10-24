@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserPhoto from '../../components/UserPhoto';
 
+
 const HomeScreen: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>

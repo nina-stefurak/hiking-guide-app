@@ -3,6 +3,8 @@
     "**/*",
     "custom.d.ts"
   ],
-  "compilerOptions": {},
+  "compilerOptions": {
+    "esModuleInterop": true,
+  },
   "extends": "expo/tsconfig.base"
 }

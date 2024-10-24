@@ -5,14 +5,12 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import icons from '../../constants/icons';
 
-// Define the interface for TabIcon props
 interface TabIconProps {
   icon: any;
   color: string;
   focused: boolean;
 }
 
-// TabIcon Component
 const TabIcon: React.FC<TabIconProps> = ({ icon, color, focused }) => {
   return (
     <View style={{
@@ -20,9 +18,9 @@ const TabIcon: React.FC<TabIconProps> = ({ icon, color, focused }) => {
       alignItems: 'center',
       justifyContent: 'center',
       gap: 5,
-      backgroundColor: focused ? '#247991' : 'transparent', // Change 'blue' to your desired active background color
-      borderRadius: 12, // Adjust the border radius as needed
-      padding: 10, // Add padding to give some space around the icon
+      backgroundColor: focused ? '#247991' : 'transparent', 
+      borderRadius: 12,
+      padding: 10,
     }}>
       <Image
         source={icon}
