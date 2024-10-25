@@ -1,19 +1,20 @@
 import { Link } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import CardComponent from '../../components/TripCard';
 
-export default function SearchScreen() {
+export default function ExploreScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Search</Text>
-      <Link href="/details">View details</Link>
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <CardComponent></CardComponent>
+      <CardComponent></CardComponent>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexGrow: 1,
+    padding: 16,
+    backgroundColor: '#FAFAFA',
   },
 });

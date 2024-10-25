@@ -8,4 +8,4 @@ const UserPhoto = () => (
   style={{ backgroundColor: '#transparent' }}
   />
 );
-export default UserPhoto
+export default UserPhoto;

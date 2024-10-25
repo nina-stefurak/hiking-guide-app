@@ -1,47 +1,26 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CardComponent from '../../components/TripCard';
-import Greeting from '../../components/Greeting';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as React from 'react';
+import UserPhoto from './UserPhoto';
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 
-
-
-const HomeScreen: React.FC = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Greeting></Greeting>
-      <Button 
-        mode="outlined" 
-        icon={() => <Icon name="plus" color="#A09CAB" size={24} />} 
-        style={styles.createButton} 
-        labelStyle={styles.createButtonLabel}
-      >
-        Utwórz nową wycieczkę
-      </Button>
-
-      <View style={styles.tripSection}>
-        <Text style={styles.sectionTitle}>Moje wycieczki</Text>
-        <View style={styles.tabs}>
-          <Button mode="contained" style={[styles.tabButton, styles.activeTabButton]} labelStyle={styles.buttonLabel}>Udostępnione</Button>
-          <Button mode="contained" style={[styles.tabButton, styles.inactiveTabButton]} labelStyle={styles.inactiveButtonLabel}>Wersja robocza</Button>
-        </View>
-
-        {/* <Card style={styles.tripCard}>
-          <ImageBackground source={require('../../assets/góry.png')} style={styles.cardImage}>
-            <Card.Content>
-              <Text style={styles.cardTitle}>Rysy, Polska</Text>
-              <Text style={styles.cardSubtitle}>2 dni</Text>
-            </Card.Content>
-          </ImageBackground>
-        </Card> */}
-        <CardComponent></CardComponent>
-
-        {}
+const Greeting = () => (
+    <LinearGradient
+    colors={['rgba(36, 121, 145, 0.20)', 'rgba(212, 232, 240, 0.27)']}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 0 }}
+    style={styles.header}
+  >
+    <View style={styles.headerTextContainer}>
+      <View style={styles.textContainer}>
+        <Text style={styles.greeting}>Cześć, Ada 👋</Text>
+        <Text style={styles.secondGreeting}>Zaczynamy przygodę</Text>
+        <Text style={styles.thirdGreeting}>Twórz wycieczki i zarządzaj</Text>
       </View>
-    </ScrollView>
-  );
-};
+      <UserPhoto />
+    </View>
+  </LinearGradient>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -142,4 +121,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default Greeting;
