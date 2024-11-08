@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CardComponent from '../../components/TripCard';
 import Greeting from '../../components/Greeting';
+import NewTripModal from '../../components/NewTripModal';
 
 
 
 const HomeScreen: React.FC = () => {
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleOpenModal = () => setModalVisible(true);
+  const handleCloseModal = () => setModalVisible(false);
+
+  const handleAddTrip = (tripData) => {
+    // Obsługa danych wycieczki (np. zapis do stanu, wysyłanie do backendu)
+    console.log('Dodano wycieczkę:', tripData);
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Greeting></Greeting>
@@ -16,6 +28,7 @@ const HomeScreen: React.FC = () => {
         icon={() => <Icon name="plus" color="#A09CAB" size={24} />} 
         style={styles.createButton} 
         labelStyle={styles.createButtonLabel}
+        onPress={handleOpenModal} // handleOpenModal po kliknięciu
       >
         Utwórz nową wycieczkę
       </Button>
@@ -37,7 +50,13 @@ const HomeScreen: React.FC = () => {
         </Card> */}
         <CardComponent></CardComponent>
 
-        {}
+        {/* Modal do dodawania wycieczki */}
+        <NewTripModal 
+          visible={modalVisible} 
+          onClose={handleCloseModal} 
+          onSubmit={handleAddTrip} 
+        />
+
       </View>
     </ScrollView>
   );

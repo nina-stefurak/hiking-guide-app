@@ -1,8 +1,8 @@
-import { Image, Text, View } from "react-native";
-import { Redirect, Tabs } from 'expo-router';
 import React, { useEffect } from 'react';
+import { Image, View } from "react-native";
+import { Provider as PaperProvider } from 'react-native-paper'; 
+import { Tabs } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import icons from '../../constants/icons';
 
 interface TabIconProps {
@@ -18,7 +18,7 @@ const TabIcon: React.FC<TabIconProps> = ({ icon, color, focused }) => {
       alignItems: 'center',
       justifyContent: 'center',
       gap: 5,
-      backgroundColor: focused ? '#247991' : 'transparent', 
+      backgroundColor: focused ? '#247991' : 'transparent',
       borderRadius: 12,
       padding: 10,
     }}>
@@ -45,79 +45,81 @@ export default function TabLayout() {
   }, []);
 
   return (
-    <Tabs screenOptions={{
-      tabBarActiveTintColor: "white",
-      tabBarInactiveTintColor: "#CDCDE0",
-      tabBarShowLabel: false,
-      tabBarStyle: {
-        height: 80,
-      },
-    }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.home}
-              color={color}
-              focused={focused}
-            />
-          ),
-        }}
-      />
+    <PaperProvider> {/* Opakowujemy zawartość w PaperProvider */}
+      <Tabs screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "#CDCDE0",
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: 80,
+        },
+      }}>
         <Tabs.Screen
-        name="search"
-        options={{
-          title: 'Search',
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.search}
-              color={color}
-              focused={focused}
-            />
-          ),
-        }}
-      />
+          name="index"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.home}
+                color={color}
+                focused={focused}
+              />
+            ),
+          }}
+        />
         <Tabs.Screen
-        name="save"
-        options={{
-          title: 'Save',
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.save}
-              color={color}
-              focused={focused}
-            />
-          ),
-        }}
-      />
+          name="search"
+          options={{
+            title: 'Search',
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.search}
+                color={color}
+                focused={focused}
+              />
+            ),
+          }}
+        />
         <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.explore}
-              color={color}
-              focused={focused}
-            />
-          ),
-        }}
-      />
+          name="save"
+          options={{
+            title: 'Save',
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.save}
+                color={color}
+                focused={focused}
+              />
+            ),
+          }}
+        />
         <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.profile}
-              color={color}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-    </Tabs>
+          name="explore"
+          options={{
+            title: 'Explore',
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.explore}
+                color={color}
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.profile}
+                color={color}
+                focused={focused}
+              />
+            ),
+          }}
+        />
+      </Tabs>
+    </PaperProvider>
   );
 }
