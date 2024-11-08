@@ -17,7 +17,7 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({ label, mode
   const handlePress = () => setShowPicker(true);
 
   const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    setShowPicker(Platform.OS === 'ios'); // Na iOS picker pozostaje widoczny, na Androidzie znika po wyborze
+    setShowPicker(Platform.OS === 'ios'); 
     if (selectedDate) {
       onChange(selectedDate);
     }

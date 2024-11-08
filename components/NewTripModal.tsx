@@ -47,10 +47,8 @@ const AddTripModal = ({ visible, onClose, onSubmit }) => {
       <ScrollView style={styles.modalContainer}>
         <Text style={styles.modalTitle}>Dodaj nową wycieczkę</Text>
 
-        {/* Custom Image Picker */}
         <CustomImagePicker onImagePicked={handleImagePicked} />
 
-        {/* Pola formularza */}
         <TextInput
           label="Nazwa"
           mode="outlined"
@@ -84,7 +82,6 @@ const AddTripModal = ({ visible, onClose, onSubmit }) => {
           theme={{ colors: { primary: '#247991' } }}
         />
 
-        {/* Custom DateTimePicker */}
         <CustomDateTimePicker
           label="Data"
           mode="date"

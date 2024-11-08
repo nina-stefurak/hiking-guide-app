@@ -45,7 +45,6 @@ export default function TabLayout() {
   }, []);
 
   return (
-    <PaperProvider> {/* Opakowujemy zawartość w PaperProvider */}
       <Tabs screenOptions={{
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "#CDCDE0",
@@ -57,7 +56,6 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Home',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -70,7 +68,6 @@ export default function TabLayout() {
         <Tabs.Screen
           name="search"
           options={{
-            title: 'Search',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.search}
@@ -83,7 +80,6 @@ export default function TabLayout() {
         <Tabs.Screen
           name="save"
           options={{
-            title: 'Save',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.save}
@@ -96,7 +92,6 @@ export default function TabLayout() {
         <Tabs.Screen
           name="explore"
           options={{
-            title: 'Explore',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.explore}
@@ -109,7 +104,6 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           options={{
-            title: 'Profile',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.profile}
@@ -120,6 +114,5 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </PaperProvider>
   );
 }

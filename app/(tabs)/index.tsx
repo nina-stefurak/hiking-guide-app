@@ -16,7 +16,7 @@ const HomeScreen: React.FC = () => {
   const handleCloseModal = () => setModalVisible(false);
 
   const handleAddTrip = (tripData) => {
-    // Obsługa danych wycieczki (np. zapis do stanu, wysyłanie do backendu)
+    // Obsługa danych wycieczki (zapis do stanu, wysyłanie do backendu)
     console.log('Dodano wycieczkę:', tripData);
   };
 
@@ -50,7 +50,6 @@ const HomeScreen: React.FC = () => {
         </Card> */}
         <CardComponent></CardComponent>
 
-        {/* Modal do dodawania wycieczki */}
         <NewTripModal 
           visible={modalVisible} 
           onClose={handleCloseModal} 
