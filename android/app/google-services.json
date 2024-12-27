@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "965577119919",
+    "project_id": "travel-app-6f520",
+    "storage_bucket": "travel-app-6f520.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965577119919:android:34ce39bbcd1371666c9c5a",
+        "android_client_info": {
+          "package_name": "com.hiking.MountGuide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfQLvUbt3RBoJV-gh30fRpzKGcli8OIXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
