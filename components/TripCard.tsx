@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+const LeftContent = (props: any) => <Avatar.Icon {...props} icon="folder" />
 
 const CardComponent = () => (
   <Card>

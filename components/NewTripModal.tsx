@@ -4,7 +4,7 @@ import { Button, TextInput, Text, useTheme } from 'react-native-paper';
 import CustomImagePicker from './CustomImagePicker';
 import CustomDateTimePicker from './CustomDateTimePicker';
 
-const AddTripModal = ({ visible, onClose, onSubmit }) => {
+const AddTripModal = ({ visible, onClose, onSubmit }: any) => {
   const [tripData, setTripData] = useState({
     photo: '',
     name: '',

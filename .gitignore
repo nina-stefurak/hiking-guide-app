@@ -33,3 +33,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/travel-app.iml
+/.idea/vcs.xml

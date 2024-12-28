@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Avatar, Button, Card, Icon, Text} from 'react-native-paper';
 import CardComponent from '../../components/TripCard';
 import Greeting from '../../components/Greeting';
 import NewTripModal from '../../components/NewTripModal';
@@ -15,7 +14,7 @@ const HomeScreen: React.FC = () => {
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
 
-  const handleAddTrip = (tripData) => {
+  const handleAddTrip = (tripData: any) => {
     console.log('Dodano wycieczkę:', tripData);
   };
 
@@ -24,7 +23,7 @@ const HomeScreen: React.FC = () => {
       <Greeting></Greeting>
       <Button 
         mode="outlined" 
-        icon={() => <Icon name="plus" color="#A09CAB" size={24} />} 
+        icon="plus"
         style={styles.createButton} 
         labelStyle={styles.createButtonLabel}
         onPress={handleOpenModal} // handleOpenModal po kliknięciu
