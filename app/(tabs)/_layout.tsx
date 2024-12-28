@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {Image, Platform, View} from "react-native";
-import { Provider as PaperProvider } from 'react-native-paper'; 
 import { Tabs } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import icons from '../../constants/icons';
