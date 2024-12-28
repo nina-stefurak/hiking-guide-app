@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Image, View } from "react-native";
+import {Image, Platform, View} from "react-native";
 import { Provider as PaperProvider } from 'react-native-paper'; 
 import { Tabs } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import icons from '../../constants/icons';
+
 
 interface TabIconProps {
   icon: any;
@@ -33,19 +34,28 @@ const TabIcon: React.FC<TabIconProps> = ({ icon, color, focused }) => {
 
 export default function TabLayout() {
   useEffect(() => {
-    const setOrientation = async () => {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
-    };
+      if (Platform.OS !== 'web') {
+          const lockOrientation = async () => {
+              try {
+                  await ScreenOrientation.lockAsync(
+                      ScreenOrientation.OrientationLock.DEFAULT
+                  );
+              } catch (error) {
+                  console.warn('Błąd blokowania orientacji:', error);
+              }
+          };
 
-    setOrientation();
+          lockOrientation();
 
-    return () => {
-      ScreenOrientation.unlockAsync();
-    };
+          return () => {
+              ScreenOrientation.unlockAsync();
+          };
+      }
   }, []);
 
   return (
       <Tabs screenOptions={{
+          headerShown: false,
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "#CDCDE0",
         tabBarShowLabel: false,

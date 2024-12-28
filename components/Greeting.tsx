@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
   },
   header: {
+    marginTop: 16,
     padding: 16,
     marginBottom: 16,
     borderRadius: 8,
