@@ -1,12 +1,9 @@
-module.exports = function(api) {
-  api.cache(true);
-  return {
-    presets: [
-      ["babel-preset-expo", { jsxImportSource: "nativewind" }],
-      "nativewind/babel",
-    ],
-    plugins: [
-      'react-native-paper/babel' // React Native Paper plugin
-    ]
-  };
+module.exports = function (api) {
+    api.cache(true);
+    return {
+        presets: [
+            ["babel-preset-expo", { jsxImportSource: "nativewind" }],
+            "nativewind/babel",
+        ],
+    };
 };
