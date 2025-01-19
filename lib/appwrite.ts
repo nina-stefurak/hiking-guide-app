@@ -1,4 +1,4 @@
-import {Client, Account, Avatars, OAuthProvider, Databases, Query} from "react-native-appwrite";
+import {Account, Avatars, Client, Databases, OAuthProvider, Query} from "react-native-appwrite";
 import * as Linking from 'expo-linking'
 import {openAuthSessionAsync} from "expo-web-browser";
 
@@ -22,9 +22,8 @@ client
 export const avatar = new Avatars(client);
 export const account = new Account(client);
 export const databases = new Databases(client);
-// export const storage = new Storage(client);
 
-export async function login(){
+export async function login() {
     try {
         const redirectUri = Linking.createURL('/');
 
@@ -41,7 +40,6 @@ export async function login(){
         if (browserResult.type !== 'success') throw new Error('failed to login');
 
         const url = new URL(browserResult.url);
-
         const secret = url.searchParams.get('secret')?.toString();
         const userId = url.searchParams.get('userId')?.toString();
 
@@ -60,7 +58,7 @@ export async function login(){
 
 export async function logout() {
     try {
-        await  account.deleteSession('current')
+        await account.deleteSession('current')
         return true;
     } catch (error) {
         console.error(error);
@@ -102,7 +100,7 @@ export async function getLatestTrips() {
     }
 }
 
-export async function getTrips({ filter, query, limit} : {
+export async function getTrips({filter, query, limit}: {
     filter: string;
     query: string;
     limit?: number;
@@ -110,11 +108,11 @@ export async function getTrips({ filter, query, limit} : {
     try {
         const buildQuery = [Query.orderDesc('$createdAt')];
 
-        if(filter && filter !== 'All') {
+        if (filter && filter !== 'All') {
             buildQuery.push(Query.equal('difficulty', filter));
         }
 
-        if(query) {
+        if (query) {
             buildQuery.push(
                 Query.or([
                     Query.search('name', query),
@@ -125,7 +123,7 @@ export async function getTrips({ filter, query, limit} : {
             )
         }
 
-        if(limit) buildQuery.push(Query.limit(limit));
+        if (limit) buildQuery.push(Query.limit(limit));
 
         const result = await databases.listDocuments(
             config.databaseId!,
@@ -141,7 +139,7 @@ export async function getTrips({ filter, query, limit} : {
     }
 }
 
-export async function getTripById({ id }: { id: string }) {
+export async function getTripById({id}: { id: string }) {
     try {
         const result = await databases.getDocument(
             config.databaseId!,
@@ -152,5 +150,70 @@ export async function getTripById({ id }: { id: string }) {
     } catch (error) {
         console.error(error);
         return null;
+    }
+}
+
+
+export async function createTrip({
+                                     name,
+                                     difficulty,
+                                     description,
+                                     price,
+                                     distance,
+                                     rating,
+                                     equipment,
+                                     image,
+                                     geolocation,
+                                     start,
+                                     end,
+                                 }: {
+    name: string;
+    difficulty: string;
+    description: string;
+    price: number;
+    distance: number;
+    rating: number;
+    equipment: string[];
+    image: string;
+    geolocation?: string;
+    start: Date;
+    end: Date;
+}) {
+    try {
+        // Generate a unique ID for the trip document
+        const tripId = `trip_${Date.now()}`;
+
+        // Convert dates to ISO strings for storage
+        const startISO = start.toISOString();
+        const endISO = end.toISOString();
+
+        // Prepare the document data
+        const documentData = {
+            name,
+            difficulty,
+            description,
+            price,
+            distance,
+            rating,
+            equipment,
+            image,
+            geolocation: geolocation || "",
+            start: startISO,
+            end: endISO,
+        };
+
+        // Create the document in the trips collection
+        const result = await databases.createDocument(
+            config.databaseId!,
+            config.tripsCollectionId!,
+            tripId,
+            documentData
+        );
+
+        console.log("Trip created successfully:", result);
+        return result;
+    } catch (error) {
+        console.error("Failed to create trip:", error);
+        throw error; // Rethrow error for the calling function to handle
     }
 }
