@@ -1,20 +1,18 @@
-import {Alert, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native'
-import React, {useState} from 'react'
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
+import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {createTrip} from "@/lib/appwrite";
+import { createTrip } from "@/lib/appwrite";
 
 const CreateTrip = () => {
-
     const [name, setName] = useState("");
     const [difficulty, setDifficulty] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [distance, setDistance] = useState("");
-    const [rating, setRating] = useState("");
-    const [equipment, setEquipment] = useState([]);
-    const [image, setImage] = useState<string | null>(null);
+    const [equipment, setEquipment] = useState("");
     const [geolocation, setGeolocation] = useState("");
+    const [image, setImage] = useState<string | null>(null);
     const [start, setStart] = useState(new Date());
     const [end, setEnd] = useState(new Date());
     const [showStartPicker, setShowStartPicker] = useState(false);
@@ -22,7 +20,7 @@ const CreateTrip = () => {
 
     const handleImagePicker = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images'],
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
         });
@@ -32,20 +30,20 @@ const CreateTrip = () => {
     };
 
     const handleSave = async () => {
-        if (!name || !difficulty || !description || !price || !distance || !start || !end || !image) {
+        if (!name || !difficulty || !description || !price || !distance || !start || !end || !image || !geolocation) {
             Alert.alert("Error", "Please fill out all required fields.");
             return;
         }
 
         try {
+            const equipmentList = equipment.split(',').map(item => item.trim());
             await createTrip({
                 name,
                 difficulty,
                 description,
                 price: parseInt(price),
                 distance: parseFloat(distance),
-                rating: parseFloat(rating) || 0,
-                equipment,
+                equipment: equipmentList,
                 image,
                 geolocation,
                 start,
@@ -58,13 +56,26 @@ const CreateTrip = () => {
         }
     };
 
-
     return (
         <View className="bg-white h-full">
-            <ScrollView className="px-4 my-6" showsVerticalScrollIndicator={false}
-                        contentContainerClassName="pb-32 bg-white">
+            <ScrollView
+                className="px-4 my-6"
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 32 }}
+                keyboardShouldPersistTaps="handled"
+            >
                 <Text className="text-black-300 text-xl font-rubik-bold">Create Trip</Text>
-                {/* Trip Name */}
+
+                {/* Image */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Image</Text>
+                <TouchableOpacity
+                    onPress={handleImagePicker}
+                    className="bg-blue-500 rounded-lg px-3 py-2 mb-4"
+                >
+                    <Text className="text-white text-center">{image ? "Change Image" : "Pick an Image"}</Text>
+                </TouchableOpacity>
+
+                {/* Name */}
                 <Text className="text-black-200 font-rubik-medium mb-1">Name</Text>
                 <TextInput
                     value={name}
@@ -112,10 +123,30 @@ const CreateTrip = () => {
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
+                {/* Equipment */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Equipment</Text>
+                <TextInput
+                    value={equipment}
+                    onChangeText={setEquipment}
+                    placeholder="Enter equipment (comma-separated)"
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                />
+
+                {/* Geolocation */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Geolocation</Text>
+                <TextInput
+                    value={geolocation}
+                    onChangeText={setGeolocation}
+                    placeholder="Enter Google Maps link"
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                />
+
                 {/* Start Date */}
                 <Text className="text-black-200 font-rubik-medium mb-1">Start Date</Text>
-                <TouchableOpacity onPress={() => setShowStartPicker(true)}
-                                  className="border border-gray-300 rounded-lg px-3 py-2 mb-4">
+                <TouchableOpacity
+                    onPress={() => setShowStartPicker(true)}
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                >
                     <Text>{start.toDateString()}</Text>
                 </TouchableOpacity>
                 {showStartPicker && (
@@ -132,8 +163,10 @@ const CreateTrip = () => {
 
                 {/* End Date */}
                 <Text className="text-black-200 font-rubik-medium mb-1">End Date</Text>
-                <TouchableOpacity onPress={() => setShowEndPicker(true)}
-                                  className="border border-gray-300 rounded-lg px-3 py-2 mb-4">
+                <TouchableOpacity
+                    onPress={() => setShowEndPicker(true)}
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                >
                     <Text>{end.toDateString()}</Text>
                 </TouchableOpacity>
                 {showEndPicker && (
@@ -148,16 +181,6 @@ const CreateTrip = () => {
                     />
                 )}
 
-                {/* Image */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Image</Text>
-                <TouchableOpacity
-                    onPress={handleImagePicker}
-                    className="bg-blue-500 rounded-lg px-3 py-2 mb-4"
-                >
-                    <Text className="text-white text-center">
-                        {image ? "Change Image" : "Pick an Image"}
-                    </Text>
-                </TouchableOpacity>
 
                 {/* Save Button */}
                 <TouchableOpacity
@@ -166,9 +189,9 @@ const CreateTrip = () => {
                 >
                     <Text className="text-white text-center font-rubik-bold">Save Trip</Text>
                 </TouchableOpacity>
-
             </ScrollView>
         </View>
-    )
-}
-export default CreateTrip
+    );
+};
+
+export default CreateTrip;

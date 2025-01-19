@@ -160,7 +160,6 @@ export async function createTrip({
                                      description,
                                      price,
                                      distance,
-                                     rating,
                                      equipment,
                                      image,
                                      geolocation,
@@ -172,7 +171,6 @@ export async function createTrip({
     description: string;
     price: number;
     distance: number;
-    rating: number;
     equipment: string[];
     image: string;
     geolocation?: string;
@@ -194,7 +192,6 @@ export async function createTrip({
             description,
             price,
             distance,
-            rating,
             equipment,
             image,
             geolocation: geolocation || "",
