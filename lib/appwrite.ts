@@ -232,13 +232,15 @@ export async function createGuide({
                                       name,
                                       email,
                                       avatar,
-                                      certificateNumber
+                                      certificateNumber,
+                                      certificateFileUrl
                                   }: {
     id: string;
     name: string;
     email: string;
     avatar: string;
     certificateNumber: string;
+    certificateFileUrl: URL
 }) {
     try {
         // Prepare the document data
@@ -247,7 +249,8 @@ export async function createGuide({
             name,
             email,
             avatar,
-            certificateNumber
+            certificateNumber,
+            certificateFileUrl
         };
 
         // Create the document in the guides collection
