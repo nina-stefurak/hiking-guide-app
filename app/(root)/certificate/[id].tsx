@@ -1,9 +1,9 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import icons from "@/constants/icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as DocumentPicker from "expo-document-picker";
-import {createGuide, uploadFile} from "@/lib/appwrite";
+import { createGuide, uploadFile, getGuideById } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 
 const CertificateForm = () => {
@@ -11,7 +11,25 @@ const CertificateForm = () => {
     const [certificateNumber, setCertificateNumber] = useState("");
     const { user } = useGlobalContext();
     const [certificateFile, setCertificateFile] = useState(null);
+    const [existingCertificateUrl, setExistingCertificateUrl] = useState<URL>();
     const [uploading, setUploading] = useState(false);
+
+    // Fetch existing guide data
+    useEffect(() => {
+        const fetchGuide = async () => {
+            try {
+                const guide = await getGuideById({ id });
+                if (guide) {
+                    setCertificateNumber(guide.certificateNumber || "");
+                    setExistingCertificateUrl(guide.certificateFileUrl || null);
+                }
+            } catch (error) {
+                console.error("Failed to fetch guide data:", error);
+            }
+        };
+
+        fetchGuide();
+    }, [id]);
 
     const openPicker = async () => {
         try {
@@ -32,21 +50,26 @@ const CertificateForm = () => {
     };
 
     const handleSave = async () => {
-        if (!certificateNumber || !certificateFile) {
+        if (!certificateNumber || (!certificateFile && !existingCertificateUrl)) {
             Alert.alert("Error", "Please fill out all required fields.");
             return;
         }
 
         setUploading(true);
         try {
-            // Upload the certificate file
-            const uploadedFileUrl = await uploadFile(
-                // @ts-ignore
-                { ...certificateFile, mimeType: certificateFile.mimeType },
-                "image"
-            );
+            let uploadedFileUrl = existingCertificateUrl;
 
-            // Create the guide with the certificate file URL
+            // Upload the certificate file if a new one is selected
+            if (certificateFile) {
+                // @ts-ignore
+                uploadedFileUrl = await uploadFile(
+                    // @ts-ignore
+                    { ...certificateFile, mimeType: certificateFile.mimeType },
+                    "image"
+                );
+            }
+
+            // Create or update the guide with the certificate file URL
             const guideData = {
                 id: id,
                 name: user!!.name,
@@ -69,7 +92,6 @@ const CertificateForm = () => {
             setUploading(false);
         }
     };
-
 
     return (
         <View className="bg-white h-full">
@@ -112,6 +134,12 @@ const CertificateForm = () => {
                         {certificateFile ? (
                             <Image
                                 source={{ uri: (certificateFile as any).uri }}
+                                resizeMode="cover"
+                                className="w-full h-64 rounded-2xl"
+                            />
+                        ) : existingCertificateUrl ? (
+                            <Image
+                                source={{ uri: existingCertificateUrl as any }}
                                 resizeMode="cover"
                                 className="w-full h-64 rounded-2xl"
                             />

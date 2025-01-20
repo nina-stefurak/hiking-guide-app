@@ -227,6 +227,20 @@ export async function createTrip({
     }
 }
 
+export async function getGuideById({ id }: { id: string }) {
+    try {
+        const result = await databases.getDocument(
+            config.databaseId!,
+            config.guidesCollectionId!,
+            id
+        );
+        return result;
+    } catch (error) {
+        console.error("Failed to fetch guide by ID:", error);
+        return null;
+    }
+}
+
 export async function createGuide({
                                       id,
                                       name,
