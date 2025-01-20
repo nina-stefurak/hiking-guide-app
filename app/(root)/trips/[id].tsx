@@ -103,7 +103,7 @@ const Trip = () => {
                             <Image source={icons.area} className="size-4" />
                         </View>
                         <Text className="text-black-300 text-sm font-rubik-medium ml-2">
-                            {trip?.distance}m
+                            {trip?.distance}
                         </Text>
                     </View>
 
@@ -112,12 +112,12 @@ const Trip = () => {
                         <Text className="text-black-300 text-sm font-rubik-medium ml-2">
                          {formatDate(trip?.start)} - {formatDate(trip?.end)}
                         </Text>
-                        {/*<View className="flex flex-row items-center justify-center bg-primary-100 rounded-full size-10 ml-7">*/}
-                        {/*    <Image source={icons.time} className="size-4" />*/}
-                        {/*</View>*/}
-                        {/*<Text className="text-black-300 text-sm font-rubik-medium ml-2">*/}
-                        {/*     Duration*/}
-                        {/*</Text>*/}
+                        <View className="flex flex-row items-center justify-center bg-primary-100 rounded-full size-10 ml-7">
+                            <Image source={icons.time} className="size-4" />
+                        </View>
+                        <Text className="text-black-300 text-sm font-rubik-medium ml-2">
+                             Duration
+                        </Text>
                     </View>
 
                     <View className="w-full border-t border-primary-200 pt-7 mt-5">

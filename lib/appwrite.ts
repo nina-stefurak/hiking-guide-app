@@ -1,4 +1,14 @@
-import {Account, Avatars, Client, Databases, OAuthProvider, Query} from "react-native-appwrite";
+import {
+    Account,
+    Avatars,
+    Client,
+    Databases,
+    ID,
+    ImageGravity,
+    OAuthProvider,
+    Query,
+    Storage
+} from "react-native-appwrite";
 import * as Linking from 'expo-linking'
 import {openAuthSessionAsync} from "expo-web-browser";
 
@@ -11,6 +21,7 @@ export const config = {
     reviewsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID,
     guidesCollectionId: process.env.EXPO_PUBLIC_APPWRITE_GUIDES_COLLECTION_ID,
     tripsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_TRIPS_COLLECTION_ID,
+    bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID!!,
 }
 
 export const client = new Client();
@@ -22,6 +33,7 @@ client
 export const avatar = new Avatars(client);
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 
 export async function login() {
     try {
@@ -214,3 +226,95 @@ export async function createTrip({
         throw error; // Rethrow error for the calling function to handle
     }
 }
+
+export async function createGuide({
+                                      id,
+                                      name,
+                                      email,
+                                      avatar,
+                                      certificateNumber
+                                  }: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string;
+    certificateNumber: string;
+}) {
+    try {
+        // Prepare the document data
+        const documentData = {
+            id,
+            name,
+            email,
+            avatar,
+            certificateNumber
+        };
+
+        // Create the document in the guides collection
+        const result = await databases.createDocument(
+            config.databaseId!,
+            config.guidesCollectionId!,
+            id,
+            documentData
+        );
+
+        console.log("Guide created successfully:", result);
+        return result;
+    } catch (error) {
+        console.error("Failed to create guide:", error);
+        throw error; // Rethrow error for the calling function to handle
+    }
+}
+
+// Upload File
+export async function uploadFile(file : any, type: string) {
+    if (!file) return;
+
+    const { mimeType, ...rest } = file;
+    const asset = { type: mimeType, ...rest };
+
+    try {
+        const uploadedFile = await storage.createFile(
+            config.bucketId,
+            ID.unique(),
+            asset
+        );
+
+        const fileUrl = await getFilePreview(uploadedFile.$id, type);
+        return fileUrl;
+    } catch (error) {
+        console.error("Failed to upload file:", error);
+        throw error;
+    }
+}
+
+// Get File Preview
+export async function getFilePreview(fileId : any, type: string) {
+    let fileUrl;
+
+    try {
+        if (type === "video") {
+            fileUrl = storage.getFileView(config.bucketId, fileId);
+        } else if (type === "image") {
+            fileUrl = storage.getFilePreview(
+                config.bucketId,
+                fileId,
+                2000,
+                2000,
+                ImageGravity.Top,
+                100
+            );
+        } else {
+            console.error("Failed to get file preview.");
+            throw new Error("Invalid file type");
+        }
+
+        if (!fileUrl) throw Error;
+
+        return fileUrl;
+    } catch (error) {
+        console.error("Failed to get file preview: ", error);
+        throw error;
+    }
+}
+

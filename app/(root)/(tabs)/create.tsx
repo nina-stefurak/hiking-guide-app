@@ -1,8 +1,11 @@
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
+import {Alert, ScrollView, Text, TextInput, TouchableOpacity, View, Platform, Image, Dimensions} from 'react-native';
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { createTrip } from "@/lib/appwrite";
+import icons from "@/constants/icons";
+import {router} from "expo-router";
+
 
 const CreateTrip = () => {
     const [name, setName] = useState("");
@@ -18,14 +21,19 @@ const CreateTrip = () => {
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
 
+
+    const [imageUri, setImageUri] = useState<string | null>(null);
+
     const handleImagePicker = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ['images'],
             allowsEditing: true,
             quality: 1,
         });
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            const uri = result.assets[0].uri;
+            setImageUri(uri);
+
         }
     };
 
@@ -57,23 +65,47 @@ const CreateTrip = () => {
     };
 
     return (
-        <View className="bg-white h-full">
+        <View className="bg-white h-full ">
             <ScrollView
-                className="px-4 my-6"
+                className="px-5 my-6"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 32 }}
                 keyboardShouldPersistTaps="handled"
             >
-                <Text className="text-black-300 text-xl font-rubik-bold">Create Trip</Text>
+
+                <View className="flex flex-row items-center justify-between">
+                    <TouchableOpacity onPress={() => router.back()}
+                                      className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center">
+                        <Image source={icons.backArrow} className="size-5" />
+                    </TouchableOpacity>
+                    <Text className="text-xl mr-2 text-center font-rubik-medium text-black-300">Create Trip</Text>
+                    <Image source={icons.bell} className="w-6 h-6" />
+                </View>
 
                 {/* Image */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Image</Text>
-                <TouchableOpacity
-                    onPress={handleImagePicker}
-                    className="bg-blue-500 rounded-lg px-3 py-2 mb-4"
-                >
-                    <Text className="text-white text-center">{image ? "Change Image" : "Pick an Image"}</Text>
+                <View className="mt-4 space-y-2">
+                    <Text className="text-black-200 font-rubik-medium mb-1">Image</Text>
+                <TouchableOpacity onPress={handleImagePicker}>
+                    {imageUri ? (
+                        <Image source={{ uri: imageUri }}
+                               resizeMode="cover"
+                               className="w-full h-64 rounded-2xl"
+                        />
+                    ) : (
+                        <View className="w-full h-16 px-4 border-2 border-gray-300 rounded-lg mb-4 flex justify-center items-center flex-row space-x-2">
+                        <Image
+                        source={icons.upload}
+                    resizeMode="contain"
+                    alt="upload"
+                    className="w-5 h-5"
+                />
+                <Text className="text-sm text-black-200 font-rubik-light">
+                    Choose a photo
+                </Text>
+        </View>
+                    )}
                 </TouchableOpacity>
+                </View>
 
                 {/* Name */}
                 <Text className="text-black-200 font-rubik-medium mb-1">Name</Text>
@@ -140,55 +172,62 @@ const CreateTrip = () => {
                     placeholder="Enter Google Maps link"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
+                {/* Start - end */}
+                <View className="flex flex-row items-center justify-between">
+                    <Text className="text-black-200 font-rubik-medium mb-1">Start</Text>
+                    <TouchableOpacity onPress={() => setShowStartPicker(true)}
+                                      className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                    >
+                        <Text>{start.toDateString()}</Text>
+                    </TouchableOpacity>
+                    {showStartPicker && (
+                        <DateTimePicker
+                            value={start}
+                            mode="date"
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                                setShowStartPicker(false);
+                                if (selectedDate) setStart(selectedDate);
+                            }}
+                        />
+                    )}
+                    <Text className="text-black-200 font-rubik-medium mb-1">End</Text>
+                    <TouchableOpacity onPress={() => setShowEndPicker(true)}
+                                      className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                    >
+                        <Text>{start.toDateString()}</Text>
+                    </TouchableOpacity>
+                    {showEndPicker && (
+                        <DateTimePicker
+                            value={end}
+                            mode="date"
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                                setShowEndPicker(false);
+                                if (selectedDate) setEnd(selectedDate);
+                            }}
+                        />
+                    )}
+                </View>
 
-                {/* Start Date */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Start Date</Text>
-                <TouchableOpacity
-                    onPress={() => setShowStartPicker(true)}
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                >
-                    <Text>{start.toDateString()}</Text>
-                </TouchableOpacity>
-                {showStartPicker && (
-                    <DateTimePicker
-                        value={start}
-                        mode="date"
-                        display="default"
-                        onChange={(event, selectedDate) => {
-                            setShowStartPicker(false);
-                            if (selectedDate) setStart(selectedDate);
-                        }}
-                    />
-                )}
+                {/* Submit and post Button */}
+                <View className="flex flex-row items-center justify-between gap-10 mb-6">
+                    <View className="flex flex-col items-start mb-1 ">
+                        <TouchableOpacity>
+                            <Text className="text-black-200 text-xs font-rubik-medium">
+                                Save
+                            </Text>
+                            <Image source={icons.save} className="size-6" />
+                        </TouchableOpacity>
 
-                {/* End Date */}
-                <Text className="text-black-200 font-rubik-medium mb-1">End Date</Text>
-                <TouchableOpacity
-                    onPress={() => setShowEndPicker(true)}
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                >
-                    <Text>{end.toDateString()}</Text>
-                </TouchableOpacity>
-                {showEndPicker && (
-                    <DateTimePicker
-                        value={end}
-                        mode="date"
-                        display="default"
-                        onChange={(event, selectedDate) => {
-                            setShowEndPicker(false);
-                            if (selectedDate) setEnd(selectedDate);
-                        }}
-                    />
-                )}
+                    </View>
 
-
-                {/* Save Button */}
-                <TouchableOpacity
-                    onPress={handleSave}
-                    className="bg-green-500 rounded-lg px-3 py-2"
-                >
-                    <Text className="text-white text-center font-rubik-bold">Save Trip</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={handleSave} className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400">
+                        <Text className="text-white text-lg text-center font-rubik-bold">
+                            Submit & Publish
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
         </View>
     );

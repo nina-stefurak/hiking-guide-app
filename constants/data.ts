@@ -73,8 +73,16 @@ export const settings = [
     icon: icons.wallet,
   },
   {
+    title: "Guide Certificate",
+    icon: icons.certificate,
+  },
+  {
     title: "Profile",
     icon: icons.person,
+  },
+  {
+    title: "Saved Trips",
+    icon: icons.saveTrip,
   },
   {
     title: "Notifications",

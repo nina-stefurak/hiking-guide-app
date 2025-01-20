@@ -22,6 +22,12 @@ import phone from "@/assets/icons/phone.png";
 import wifi from "@/assets/icons/wifi.png";
 import location from "@/assets/icons/location.png";
 import edit from "@/assets/icons/edit.png";
+import upload from  "@/assets/icons/upload.png";
+import plus from  "@/assets/icons/plus.png";
+import save from  "@/assets/icons/save.png";
+import saveTrip from  "@/assets/icons/saveTrip.png";
+import time from  "@/assets/icons/time.png";
+import certificate from  "@/assets/icons/certificate.png";
 
 export default {
     google,
@@ -48,4 +54,10 @@ export default {
     wifi,
     location,
     edit,
+    upload,
+    plus,
+    save,
+    saveTrip,
+    time,
+    certificate,
 };

@@ -2,10 +2,10 @@ import {View, Text, ScrollView, Image, TouchableOpacity, ImageSourcePropType, Al
 import React from 'react'
 import {SafeAreaView} from "react-native-safe-area-context";
 import icons from "@/constants/icons";
-import images from "@/constants/images";
 import {settings} from "@/constants/data";
 import {useGlobalContext} from "@/lib/global-provider";
 import {logout} from "@/lib/appwrite";
+import {router} from "expo-router";
 
 interface SettingsItemProp {
     icon: ImageSourcePropType;
@@ -44,7 +44,7 @@ const Profile = () => {
         const result = await logout();
         if (result) {
             Alert.alert("Success", "Logged out successfully");
-            refetch();
+            await refetch();
         } else {
             Alert.alert("Error", "Failed to logout");
         }
@@ -70,10 +70,14 @@ const Profile = () => {
                 <View className="flex flex-col mt-10">
                     <SettingsItem icon={icons.calendar} title="My Bookings" />
                     <SettingsItem icon={icons.wallet} title="Payments" />
+                    <SettingsItem icon={icons.certificate} title="Guide Certificate" onPress={() => {
+                        // @ts-ignore
+                        router.push(`/certificate/${user!!.$id}`);
+                    }}/>
                 </View>
 
                 <View className="flex flex-col mt-5 border-t pt-5 border-primary-200">
-                    {settings.slice(2).map((item, index) => (
+                    {settings.slice(3).map((item, index) => (
                         <SettingsItem key={index} {...item} />
                     ))}
                 </View>
