@@ -177,6 +177,7 @@ export async function createTrip({
                                      geolocation,
                                      start,
                                      end,
+                                     guideId,
                                  }: {
     name: string;
     difficulty: string;
@@ -188,6 +189,7 @@ export async function createTrip({
     geolocation?: string;
     start: Date;
     end: Date;
+    guideId: string;
 }) {
     try {
         // Generate a unique ID for the trip document
@@ -209,6 +211,7 @@ export async function createTrip({
             geolocation: geolocation || "",
             start: startISO,
             end: endISO,
+            guide: guideId,
         };
 
         // Create the document in the trips collection
@@ -227,7 +230,7 @@ export async function createTrip({
     }
 }
 
-export async function getGuideById({ id }: { id: string }) {
+export async function getGuideById({id}: { id: string }) {
     try {
         const result = await databases.getDocument(
             config.databaseId!,
@@ -284,11 +287,11 @@ export async function createGuide({
 }
 
 // Upload File
-export async function uploadFile(file : any, type: string) {
+export async function uploadFile(file: any, type: string) {
     if (!file) return;
 
-    const { mimeType, ...rest } = file;
-    const asset = { type: mimeType, ...rest };
+    const {mimeType, ...rest} = file;
+    const asset = {type: mimeType, ...rest};
 
     try {
         const uploadedFile = await storage.createFile(
@@ -306,7 +309,7 @@ export async function uploadFile(file : any, type: string) {
 }
 
 // Get File Preview
-export async function getFilePreview(fileId : any, type: string) {
+export async function getFilePreview(fileId: any, type: string) {
     let fileUrl;
 
     try {
