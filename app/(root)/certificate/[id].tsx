@@ -1,15 +1,15 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {router, useLocalSearchParams} from "expo-router";
+import {Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import icons from "@/constants/icons";
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import * as DocumentPicker from "expo-document-picker";
-import { createGuide, uploadFile, getGuideById } from "@/lib/appwrite";
-import { useGlobalContext } from "@/lib/global-provider";
+import {createGuide, getGuideById, uploadFile} from "@/lib/appwrite";
+import {useGlobalContext} from "@/lib/global-provider";
 
 const CertificateForm = () => {
-    const { id } = useLocalSearchParams<{ id: string }>();
+    const {id} = useLocalSearchParams<{ id: string }>();
     const [certificateNumber, setCertificateNumber] = useState("");
-    const { user } = useGlobalContext();
+    const {user} = useGlobalContext();
     const [certificateFile, setCertificateFile] = useState(null);
     const [existingCertificateUrl, setExistingCertificateUrl] = useState<URL>();
     const [uploading, setUploading] = useState(false);
@@ -18,7 +18,7 @@ const CertificateForm = () => {
     useEffect(() => {
         const fetchGuide = async () => {
             try {
-                const guide = await getGuideById({ id });
+                const guide = await getGuideById({id});
                 if (guide) {
                     setCertificateNumber(guide.certificateNumber || "");
                     setExistingCertificateUrl(guide.certificateFileUrl || null);
@@ -59,17 +59,15 @@ const CertificateForm = () => {
         try {
             let uploadedFileUrl = existingCertificateUrl;
 
-            // Upload the certificate file if a new one is selected
             if (certificateFile) {
                 // @ts-ignore
                 uploadedFileUrl = await uploadFile(
                     // @ts-ignore
-                    { ...certificateFile, mimeType: certificateFile.mimeType },
+                    {...certificateFile, mimeType: certificateFile.mimeType},
                     "image"
                 );
             }
 
-            // Create or update the guide with the certificate file URL
             const guideData = {
                 id: id,
                 name: user!!.name,
@@ -83,7 +81,7 @@ const CertificateForm = () => {
 
             if (response) {
                 Alert.alert("Success", "Guide information saved successfully!");
-                router.push("/profile"); // Navigate back to the profile page
+                router.push("/profile");
             }
         } catch (error) {
             console.error("Failed to save guide information:", error);
@@ -98,7 +96,7 @@ const CertificateForm = () => {
             <ScrollView
                 className="px-5 my-6"
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 32 }}
+                contentContainerStyle={{paddingBottom: 32}}
                 keyboardShouldPersistTaps="handled"
             >
                 <View className="flex flex-row items-center justify-between">
@@ -106,40 +104,44 @@ const CertificateForm = () => {
                         onPress={() => router.push(`/profile`)}
                         className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center"
                     >
-                        <Image source={icons.backArrow} className="size-5" />
+                        <Image source={icons.backArrow} className="size-5"/>
                     </TouchableOpacity>
                     <Text className="text-xl mr-2 text-center font-rubik-medium text-black-300">
                         Your Certification
                     </Text>
-                    <Image source={icons.bell} className="w-6 h-6" />
+                    <Image source={icons.bell} className="w-6 h-6"/>
                 </View>
 
                 <View className="w-full border-t border-primary-200 pt-7 mt-5">
                     <Text className="text-black-300 text-base font-rubik-bold">
                         Guide Identification Number
                     </Text>
-                    <TextInput
-                        onChangeText={setCertificateNumber}
-                        value={certificateNumber}
-                        placeholder="Enter your identification number"
-                        className="border border-gray-300 rounded-lg px-3 py-2 mb-4 mt-2"
-                    />
+                    {!!existingCertificateUrl ? (
+                            <Text>{certificateNumber}</Text>
+                       ): (
+                        <TextInput
+                            onChangeText={setCertificateNumber}
+                            value={certificateNumber}
+                            placeholder="Enter your identification number"
+                            className="border border-gray-300 rounded-lg px-3 py-2 mb-4 mt-2"
+                        />
+                    )}
                 </View>
 
                 <View className="w-full border-t border-primary-200 pt-7 mt-5">
                     <Text className="text-black-300 text-base font-rubik-bold">
                         Upload Certificate
                     </Text>
-                    <TouchableOpacity onPress={openPicker} className="mt-2">
+                    <TouchableOpacity disabled={!!existingCertificateUrl} onPress={openPicker} className="mt-2">
                         {certificateFile ? (
                             <Image
-                                source={{ uri: (certificateFile as any).uri }}
+                                source={{uri: (certificateFile as any).uri}}
                                 resizeMode="cover"
                                 className="w-full h-64 rounded-2xl"
                             />
                         ) : existingCertificateUrl ? (
                             <Image
-                                source={{ uri: existingCertificateUrl as any }}
+                                source={{uri: existingCertificateUrl as any}}
                                 resizeMode="cover"
                                 className="w-full h-64 rounded-2xl"
                             />
@@ -150,18 +152,23 @@ const CertificateForm = () => {
                         )}
                     </TouchableOpacity>
                 </View>
+                {existingCertificateUrl ?
+                    (<Text></Text>):
+                        (
+                            <TouchableOpacity
+                        onPress={handleSave}
+                        disabled={uploading}
+                        className={`flex-1 flex flex-row items-center justify-center ${
+                            uploading ? "bg-gray-400" : "bg-primary-300"
+                        } py-3 rounded-full shadow-md shadow-zinc-400 mt-7`}
+                    >
+                        <Text className="text-white text-lg text-center font-rubik-bold">
+                            {uploading ? "Uploading..." : "Submit & Publish"}
+                        </Text>
+                    </TouchableOpacity>
+                    )
+                }
 
-                <TouchableOpacity
-                    onPress={handleSave}
-                    disabled={uploading}
-                    className={`flex-1 flex flex-row items-center justify-center ${
-                        uploading ? "bg-gray-400" : "bg-primary-300"
-                    } py-3 rounded-full shadow-md shadow-zinc-400 mt-7`}
-                >
-                    <Text className="text-white text-lg text-center font-rubik-bold">
-                        {uploading ? "Uploading..." : "Submit & Publish"}
-                    </Text>
-                </TouchableOpacity>
             </ScrollView>
         </View>
     );
