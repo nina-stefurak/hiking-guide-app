@@ -165,6 +165,20 @@ export async function getTripById({id}: { id: string }) {
     }
 }
 
+export async function deleteTripById({ id }: { id: string }) {
+    try {
+        const result = await databases.deleteDocument(
+            config.databaseId!,
+            config.tripsCollectionId!,
+            id
+        );
+        console.log("Trip deleted successfully:", result);
+        return result;
+    } catch (error) {
+        console.error("Failed to delete trip:", error);
+        throw error; // Rethrow error for the calling function to handle
+    }
+}
 
 export async function createTrip({
                                      name,
