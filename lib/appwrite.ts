@@ -253,7 +253,7 @@ export async function getGuideById({id}: { id: string }) {
         );
         return result;
     } catch (error) {
-        console.error("Failed to fetch guide by ID:", error);
+        // console.error("Failed to fetch guide by ID:", error);
         return null;
     }
 }

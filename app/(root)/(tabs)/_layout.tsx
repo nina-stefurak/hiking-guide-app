@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Tabs} from "expo-router";
-import { Image, ImageSourcePropType, Text, View } from "react-native";
+import {Image, ImageSourcePropType, Text, View} from "react-native";
 
 import icons from "@/constants/icons";
+import {useGlobalContext} from "@/lib/global-provider";
+import {getGuideById} from "@/lib/appwrite";
 
 const TabIcon = ({
                      focused,
@@ -33,6 +35,23 @@ const TabIcon = ({
 );
 
 const TabsLayout = () => {
+    const {user} = useGlobalContext();
+    const [isCreateVisible, setIsCreateVisible] = useState(false);
+
+    useEffect(() => {
+        const fetchGuide = async () => {
+            try {
+                if (await getGuideById({id: user!!.$id}) !== null) {
+                    setIsCreateVisible(true);
+                }
+            } catch (error) {
+                console.error("Failed to fetch guide data:", error);
+            }
+        };
+
+        fetchGuide();
+    }, [user]);
+
     return (
         <Tabs
             screenOptions={{
@@ -51,8 +70,8 @@ const TabsLayout = () => {
                 options={{
                     title: "Home",
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.home} title="Home" />
+                    tabBarIcon: ({focused}) => (
+                        <TabIcon focused={focused} icon={icons.home} title="Home"/>
                     ),
                 }}
             />
@@ -61,28 +80,31 @@ const TabsLayout = () => {
                 options={{
                     title: "Explore",
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.search} title="Explore" />
+                    tabBarIcon: ({focused}) => (
+                        <TabIcon focused={focused} icon={icons.search} title="Explore"/>
                     ),
                 }}
             />
-            <Tabs.Screen
-                name="create"
-                options={{
-                    title: "Profile",
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.plus} title="Create" />
-                    ),
-                }}
-            />
+            {/*{isCreateVisible && (*/}
+            {/*    <Tabs.Screen*/}
+            {/*        name="create"*/}
+            {/*        options={{*/}
+            {/*            title: "Create", // Corrected title*/}
+            {/*            headerShown: false,*/}
+            {/*            tabBarIcon: ({ focused }) => (*/}
+            {/*                <TabIcon focused={focused} icon={icons.plus} title="Create" />*/}
+            {/*            ),*/}
+            {/*        }}*/}
+            {/*    />*/}
+            {/*)}*/}
+
             <Tabs.Screen
                 name="profile"
                 options={{
                     title: "Profile",
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.person} title="Profile" />
+                    tabBarIcon: ({focused}) => (
+                        <TabIcon focused={focused} icon={icons.person} title="Profile"/>
                     ),
                 }}
             />

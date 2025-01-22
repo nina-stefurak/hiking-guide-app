@@ -10,6 +10,8 @@ import {useAppwrite} from "@/lib/useAppwrite";
 import {getLatestTrips, getTrips} from "@/lib/appwrite";
 import {useEffect} from "react";
 import NoResults from "@/components/NoResults";
+import CustomButton from "@/components/AnimatedButton";
+import { PaperProvider } from "react-native-paper";
 // import seed from "@/lib/seed";
 
 export default function Index() {
@@ -43,7 +45,9 @@ export default function Index() {
         })
     }, [params.filter, params.query])
 
+
     return (
+        <PaperProvider>
         <SafeAreaView className="bg-white h-full">
             <FlatList
                 data={trips}
@@ -113,8 +117,9 @@ export default function Index() {
                     <Filters/>
                 </View>}
             />
-
-
+            <CustomButton
+            />
         </SafeAreaView>
+        </PaperProvider>
     );
 }
