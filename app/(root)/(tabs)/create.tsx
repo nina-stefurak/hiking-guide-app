@@ -54,6 +54,19 @@ const CreateTrip = () => {
             {...image, mimeType: image.mimeType},
             "image");
 
+        function resetForm() {
+            setName("");
+            setDifficulty("");
+            setDescription("");
+            setPrice("");
+            setDistance("");
+            setEquipment("");
+            setGeolocation("");
+            setStart(new Date());
+            setEnd(new Date());
+            setImage(null);
+        }
+
         try {
             let existingGuide = await getGuideById({id: user!!.$id});
             console.log("Found existing giude:" + JSON.stringify(existingGuide));
@@ -71,6 +84,8 @@ const CreateTrip = () => {
                 end,
                 guideId: (existingGuide as any).id,
             });
+            resetForm();
+            router.back();
             Alert.alert("Success", "Trip created successfully!");
         } catch (error) {
             console.error(error);
