@@ -184,7 +184,7 @@ export async function createTrip({
     price: number;
     distance: number;
     equipment: string[];
-    image: string;
+    image: URL;
     geolocation?: string;
     start: Date;
     end: Date;
@@ -300,7 +300,7 @@ export async function uploadFile(file : any, type: string) {
         const fileUrl = await getFilePreview(uploadedFile.$id, type);
         return fileUrl;
     } catch (error) {
-        console.error("Failed to upload file:", error);
+        console.error("Failed to upload file:", JSON.stringify(error));
         throw error;
     }
 }
@@ -318,7 +318,7 @@ export async function getFilePreview(fileId : any, type: string) {
                 fileId,
                 2000,
                 2000,
-                ImageGravity.Top,
+                ImageGravity.Center,
                 100
             );
         } else {

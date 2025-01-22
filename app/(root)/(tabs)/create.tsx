@@ -2,9 +2,11 @@ import {Alert, ScrollView, Text, TextInput, TouchableOpacity, View, Platform, Im
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { createTrip } from "@/lib/appwrite";
+import {createTrip, uploadFile} from "@/lib/appwrite";
 import icons from "@/constants/icons";
 import {router} from "expo-router";
+import * as DocumentPicker from "expo-document-picker";
+import {DocumentPickerAsset} from "expo-document-picker";
 
 
 const CreateTrip = () => {
@@ -15,25 +17,19 @@ const CreateTrip = () => {
     const [distance, setDistance] = useState("");
     const [equipment, setEquipment] = useState("");
     const [geolocation, setGeolocation] = useState("");
-    const [image, setImage] = useState<string | null>(null);
     const [start, setStart] = useState(new Date());
     const [end, setEnd] = useState(new Date());
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
-
-
-    const [imageUri, setImageUri] = useState<string | null>(null);
+    const [image, setImage] = useState(null)
 
     const handleImagePicker = async () => {
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images'],
-            allowsEditing: true,
-            quality: 1,
+        const result = await DocumentPicker.getDocumentAsync({
+            type: ["image/png", "image/jpg", "image/jpeg"],
         });
         if (!result.canceled) {
-            const uri = result.assets[0].uri;
-            setImageUri(uri);
-
+            // @ts-ignore
+            setImage(result.assets[0])
         }
     };
 
@@ -42,6 +38,11 @@ const CreateTrip = () => {
             Alert.alert("Error", "Please fill out all required fields.");
             return;
         }
+
+        let uploadedImage = await uploadFile(
+            // @ts-ignore
+            {...image, mimeType: image.mimeType},
+            "image");
 
         try {
             const equipmentList = equipment.split(',').map(item => item.trim());
@@ -52,7 +53,7 @@ const CreateTrip = () => {
                 price: parseInt(price),
                 distance: parseFloat(distance),
                 equipment: equipmentList,
-                image,
+                image: uploadedImage!!,
                 geolocation,
                 start,
                 end,
@@ -86,8 +87,8 @@ const CreateTrip = () => {
                 <View className="mt-4 space-y-2">
                     <Text className="text-black-200 font-rubik-medium mb-1">Image</Text>
                 <TouchableOpacity onPress={handleImagePicker}>
-                    {imageUri ? (
-                        <Image source={{ uri: imageUri }}
+                    {(image!==null) ? (
+                        <Image source={{ uri: (image!! as any).uri }}
                                resizeMode="cover"
                                className="w-full h-64 rounded-2xl"
                         />

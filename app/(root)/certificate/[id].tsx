@@ -60,6 +60,7 @@ const CertificateForm = () => {
             let uploadedFileUrl = existingCertificateUrl;
 
             if (certificateFile) {
+                console.log("Uploaded certificate: " + JSON.stringify(certificateFile))
                 // @ts-ignore
                 uploadedFileUrl = await uploadFile(
                     // @ts-ignore
