@@ -4,16 +4,18 @@ import icons from "@/constants/icons";
 import images from "@/constants/images";
 import Comment from "@/components/Comment";
 import {useAppwrite} from "@/lib/useAppwrite";
-import {deleteTripById, getTripById} from "@/lib/appwrite";
+import {bookTrip, cancelBooking, deleteTripById, getTripById} from "@/lib/appwrite";
 import {useGlobalContext} from "@/lib/global-provider";
+import {useState} from "react";
 
 const Trip = () => {
     const {id} = useLocalSearchParams<{ id?: string }>();
     const {user} = useGlobalContext();
 
+
     const windowHeight = Dimensions.get("window").height;
 
-    const {data: trip} = useAppwrite({
+    const {data: trip, refetch} = useAppwrite({
         fn: getTripById,
         params: {
             id: id!,
@@ -42,7 +44,7 @@ const Trip = () => {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            await deleteTripById({ id: tripId });
+                            await deleteTripById({id: tripId});
                             router.back();
                             Alert.alert("Success", `Trip "${trip?.name}" has been deleted.`);
                         } catch (error) {
@@ -52,9 +54,35 @@ const Trip = () => {
                     },
                 },
             ],
-            { cancelable: true }
+            {cancelable: true}
         );
     };
+
+    const bookTripNow = async (tripId: string) => {
+        const currentUserId = user!!.$id;
+        try {
+            await bookTrip(tripId, currentUserId);
+            Alert.alert(`You booked the trip "${trip?.name}"`);
+            await refetch({ id: tripId });
+        } catch (error) {
+            Alert.alert("Error", "Failed to book the trip. Please try again.");
+            console.error("Book Trip Error:", error);
+        }
+    };
+
+    const cancelTripBooking = async (tripId: string) => {
+        const currentUserId = user!!.$id;
+        try {
+            await cancelBooking(tripId, currentUserId);
+            Alert.alert(`You have canceled your booking for "${trip?.name}"`);
+            await refetch({ id: tripId });
+        } catch (error) {
+            Alert.alert("Error", "Failed to cancel the booking. Please try again.");
+            console.error("Cancel Booking Error:", error);
+        }
+    };
+
+    const isUserBooked = trip?.bookings.includes(user?.$id || "");
 
     return (
         <View>
@@ -187,6 +215,15 @@ const Trip = () => {
                         </Text>
                     </View>
 
+                    <View>
+                        <Text className="text-black-300 text-xl font-rubik-bold">
+                            Bookings
+                        </Text>
+                        <Text className="text-black-200 text-base font-rubik mt-2">
+                            {trip?.bookings}
+                        </Text>
+                    </View>
+
                     {trip?.gallery.length > 0 && (
                         <View className="mt-7">
                             <Text className="text-black-300 text-xl font-rubik-bold">
@@ -274,8 +311,17 @@ const Trip = () => {
                                 Delete
                             </Text>
                         </TouchableOpacity>
+                    ) : isUserBooked ? (
+                        <TouchableOpacity
+                            onPress={() => cancelTripBooking(trip!!.$id)}
+                            className="flex-1 flex flex-row items-center justify-center bg-gray-500 py-3 rounded-full shadow-md shadow-zinc-400">
+                            <Text className="text-white text-lg text-center font-rubik-bold">
+                                Cancel Booking
+                            </Text>
+                        </TouchableOpacity>
                     ) : (
                         <TouchableOpacity
+                            onPress={() => bookTripNow(trip!!.$id)}
                             className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400">
                             <Text className="text-white text-lg text-center font-rubik-bold">
                                 Book Now

@@ -180,6 +180,40 @@ export async function deleteTripById({ id }: { id: string }) {
     }
 }
 
+export async function bookTrip(tripId: string, userId: string) {
+    try {
+        const trip = await databases.getDocument(config.databaseId!, config.tripsCollectionId!, tripId);
+        const bookings: string[] = trip.bookings || [];
+        if (!bookings.includes(userId)) {
+            bookings.push(userId);
+            const updatedTrip = await databases.updateDocument(config.databaseId!, config.tripsCollectionId!, tripId, { bookings });
+            return updatedTrip;
+        }
+        return trip; // User is already booked
+    } catch (error) {
+        console.error("Failed to book trip:", error);
+        throw error;
+    }
+}
+
+export async function cancelBooking(tripId: string, userId: string) {
+    try {
+        const trip = await databases.getDocument(config.databaseId!, config.tripsCollectionId!, tripId);
+        const bookings: string[] = trip.bookings || [];
+        if (bookings.includes(userId)) {
+            const updatedBookings = bookings.filter(id => id !== userId);
+            const updatedTrip = await databases.updateDocument(config.databaseId!, config.tripsCollectionId!, tripId, { bookings: updatedBookings });
+            return updatedTrip;
+        }
+        return trip; // User was not booked
+    } catch (error) {
+        console.error("Failed to cancel booking:", error);
+        throw error;
+    }
+}
+
+
+
 export async function createTrip({
                                      name,
                                      difficulty,
