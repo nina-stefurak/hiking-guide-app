@@ -18,19 +18,8 @@ const difficultyTypes = [
     "Easy",
     "Medium",
     "Hard",
-    "Expert",
 ];
 
-const equipment = [
-    "Water",
-    "Raincoat",
-    "Sunscreen",
-    "Sunglasses",
-    "Gloves",
-    "Hat",
-    "Tent",
-    "Mat",
-];
 
 function getRandomDate(start: Date, end: Date): Date {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -146,10 +135,6 @@ async function seed() {
             const assignedReviews = getRandomSubset(reviews, 5, 7); // 5 to 7 reviews
             const assignedGalleries = getRandomSubset(galleries, 3, 8); // 3 to 8 galleries
 
-            const selectedEquipment = equipment
-                .sort(() => 0.5 - Math.random())
-                .slice(0, Math.floor(Math.random() * equipment.length) + 1);
-
             const image =
                 tripsImages.length - 1 >= i
                     ? tripsImages[i]
@@ -170,10 +155,10 @@ async function seed() {
                     name: `Trip ${i}`,
                     difficulty: difficultyTypes[Math.floor(Math.random() * difficultyTypes.length)],
                     description: `This is the description for Trip ${i}.`,
+                    equipments: "equipments",
                     price: Math.floor(Math.random() * 9000) + 1000,
                     distance: Math.floor(Math.random() * 3000) + 500,
                     rating: Math.floor(Math.random() * 5) + 1,
-                    equipment: selectedEquipment,
                     image: image,
                     geolocation: geolocation,
                     start: startDate.toISOString(),

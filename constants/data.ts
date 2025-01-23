@@ -7,7 +7,7 @@ export const cards = [
     location: "Location 1",
     price: "$100",
     rating: 4.8,
-    difficulty: "Expert",
+    difficulty: "Medium",
     image: images.mount1,
   },
   {
@@ -60,7 +60,6 @@ export const difficulties = [
   { title: "Easy", difficulty: "Easy" },
   { title: "Medium", difficulty: "Medium" },
   { title: "Hard", difficulty: "Hard" },
-  { title: "Expert", difficulty: "Expert" },
 ];
 
 export const settings = [

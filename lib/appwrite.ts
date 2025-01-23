@@ -184,9 +184,9 @@ export async function createTrip({
                                      name,
                                      difficulty,
                                      description,
+                                     equipments,
                                      price,
                                      distance,
-                                     equipment,
                                      image,
                                      geolocation,
                                      start,
@@ -196,9 +196,9 @@ export async function createTrip({
     name: string;
     difficulty: string;
     description: string;
+    equipments: string;
     price: number;
     distance: number;
-    equipment: string[];
     image: URL;
     geolocation?: string;
     start: Date;
@@ -218,9 +218,9 @@ export async function createTrip({
             name,
             difficulty,
             description,
+            equipments,
             price,
             distance,
-            equipment,
             image,
             geolocation: geolocation || "",
             start: startISO,

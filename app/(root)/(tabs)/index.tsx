@@ -10,7 +10,7 @@ import {useAppwrite} from "@/lib/useAppwrite";
 import {getLatestTrips, getTrips} from "@/lib/appwrite";
 import {useEffect} from "react";
 import NoResults from "@/components/NoResults";
-import CustomButton from "@/components/AnimatedButton";
+import CustomButton from "@/components/CustomButton";
 import { PaperProvider } from "react-native-paper";
 // import seed from "@/lib/seed";
 
@@ -117,8 +117,7 @@ export default function Index() {
                     <Filters/>
                 </View>}
             />
-            <CustomButton
-            />
+            <CustomButton/>
         </SafeAreaView>
         </PaperProvider>
     );

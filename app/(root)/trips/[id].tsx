@@ -1,11 +1,8 @@
 import {Alert, Dimensions, FlatList, Image, Platform, ScrollView, Text, TouchableOpacity, View,} from "react-native";
 import {router, useLocalSearchParams} from "expo-router";
-
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import Comment from "@/components/Comment";
-import {equipments} from "@/constants/data";
-
 import {useAppwrite} from "@/lib/useAppwrite";
 import {deleteTripById, getTripById} from "@/lib/appwrite";
 import {useGlobalContext} from "@/lib/global-provider";
@@ -183,34 +180,11 @@ const Trip = () => {
 
                     <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Required equipment
+                            Required equipments
                         </Text>
-
-                        {trip?.equipment.length > 0 && (
-                            <View className="flex flex-row flex-wrap items-start justify-start mt-2 gap-5">
-                                {trip?.equipment.map((item: string, index: number) => {
-                                    const equipment = equipments.find(
-                                        (equipment) => equipment.title === item
-                                    );
-
-                                    return (
-                                        <View
-                                            key={index}
-                                            className="flex flex-1 flex-col items-center min-w-16 max-w-20"
-                                        >
-
-                                            <Text
-                                                numberOfLines={1}
-                                                ellipsizeMode="tail"
-                                                className="text-black-300 text-sm text-center font-rubik mt-1.5"
-                                            >
-                                                {equipment?.title}
-                                            </Text>
-                                        </View>
-                                    );
-                                })}
-                            </View>
-                        )}
+                        <Text className="text-black-200 text-base font-rubik mt-2">
+                            {trip?.equipments}
+                        </Text>
                     </View>
 
                     {trip?.gallery.length > 0 && (

@@ -6,21 +6,22 @@ import icons from "@/constants/icons";
 import {router} from "expo-router";
 import * as DocumentPicker from "expo-document-picker";
 import {useGlobalContext} from "@/lib/global-provider";
-
+import {RadioButton} from 'react-native-paper';
 
 const CreateTrip = () => {
     const [name, setName] = useState("");
     const [difficulty, setDifficulty] = useState("");
     const [description, setDescription] = useState("");
+    const [equipments, setEquipments] = useState("");
     const [price, setPrice] = useState("");
     const [distance, setDistance] = useState("");
-    const [equipment, setEquipment] = useState("");
     const [geolocation, setGeolocation] = useState("");
     const [start, setStart] = useState(new Date());
     const [end, setEnd] = useState(new Date());
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
     const [image, setImage] = useState(null)
+
 
     const {user} = useGlobalContext();
 
@@ -58,9 +59,9 @@ const CreateTrip = () => {
             setName("");
             setDifficulty("");
             setDescription("");
+            setEquipments("");
             setPrice("");
             setDistance("");
-            setEquipment("");
             setGeolocation("");
             setStart(new Date());
             setEnd(new Date());
@@ -70,14 +71,13 @@ const CreateTrip = () => {
         try {
             let existingGuide = await getGuideById({id: user!!.$id});
             console.log("Found existing giude:" + JSON.stringify(existingGuide));
-            const equipmentList = equipment.split(',').map(item => item.trim());
             await createTrip({
                 name,
                 difficulty,
                 description,
+                equipments,
                 price: parseInt(price),
                 distance: parseFloat(distance),
-                equipment: equipmentList,
                 image: uploadedImage!!,
                 geolocation,
                 start,
@@ -148,12 +148,26 @@ const CreateTrip = () => {
 
                 {/* Difficulty */}
                 <Text className="text-black-200 font-rubik-medium mb-1">Difficulty</Text>
-                <TextInput
+                <RadioButton.Group
+                    onValueChange={value => setDifficulty(value)}
                     value={difficulty}
-                    onChangeText={setDifficulty}
-                    placeholder="Enter difficulty (e.g., Easy, Medium, Hard)"
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                />
+                >
+                    <View className="flex flex-row items-center justify-between mb-4">
+                        <View className="flex flex-row items-center space-x-2">
+                            <RadioButton value="Easy"/>
+                            <Text className="text-black-200">Easy</Text>
+                        </View>
+                        <View className="flex flex-row items-center space-x-2">
+                            <RadioButton value="Medium"/>
+                            <Text className="text-black-200">Medium</Text>
+                        </View>
+                        <View className="flex flex-row items-center space-x-2">
+                            <RadioButton value="Hard"/>
+                            <Text className="text-black-200">Hard</Text>
+                        </View>
+                    </View>
+                </RadioButton.Group>
+
 
                 {/* Description */}
                 <Text className="text-black-200 font-rubik-medium mb-1">Description</Text>
@@ -162,6 +176,14 @@ const CreateTrip = () => {
                     onChangeText={setDescription}
                     placeholder="Enter description"
                     multiline
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                />
+                {/* Equipment */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Required equipment</Text>
+                <TextInput
+                    value={equipments}
+                    onChangeText={setEquipments}
+                    placeholder="Enter equipments"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
@@ -182,15 +204,6 @@ const CreateTrip = () => {
                     onChangeText={setDistance}
                     placeholder="Enter distance (e.g., 10.5)"
                     keyboardType="numeric"
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                />
-
-                {/* Equipment */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Equipment</Text>
-                <TextInput
-                    value={equipment}
-                    onChangeText={setEquipment}
-                    placeholder="Enter equipment (comma-separated)"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
