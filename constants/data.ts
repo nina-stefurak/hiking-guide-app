@@ -68,8 +68,8 @@ export const settings = [
     icon: icons.calendar,
   },
   {
-    title: "Payments",
-    icon: icons.wallet,
+    title: "My Trips",
+    icon: icons.saveTrip,
   },
   {
     title: "Guide Certificate",
@@ -80,8 +80,8 @@ export const settings = [
     icon: icons.person,
   },
   {
-    title: "Saved Trips",
-    icon: icons.saveTrip,
+    title: "Payments",
+    icon: icons.wallet,
   },
   {
     title: "Notifications",

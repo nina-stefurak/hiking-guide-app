@@ -227,9 +227,9 @@ const Trip = () => {
                                     <View>
                                         <Image
                                             source={{uri: item.avatar}}
-                                            className="size-10 rounded-full mr-2"
+                                            className="size-7 rounded-full mr-2"
                                         />
-                                        <Text>{item.userName}</Text>
+                                        <Text className="text-black-200 text-xs font-rubik mr-2">{item.userName}</Text>
                                     </View>
                                 )}
                                 contentContainerStyle={{paddingVertical: 10}}

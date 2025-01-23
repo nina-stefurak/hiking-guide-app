@@ -68,8 +68,8 @@ const Profile = () => {
                     </View>
                 </View>
                 <View className="flex flex-col mt-10">
-                    <SettingsItem icon={icons.calendar} title="My Bookings" />
-                    <SettingsItem icon={icons.wallet} title="Payments" />
+                    <SettingsItem icon={icons.calendar} title="My Bookings" onPress={()=> router.push("/trips/bookedTrips")}/>
+                    <SettingsItem icon={icons.save} title="My Trips" onPress={() => router.push("/trips/myTrips")} />
                     <SettingsItem icon={icons.certificate} title="Guide Certificate" onPress={() => {
                         // @ts-ignore
                         router.push(`/certificate/${user!!.$id}`);

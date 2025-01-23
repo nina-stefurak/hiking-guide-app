@@ -26,7 +26,6 @@ export default function Explore() {
     // @ts-ignore
     const handleCardPress = (id: string) => router.push(`/trips/${id}`);
 
-    //recall function to show the latest data (250)
     useEffect( () => {
         refetch({
             filter: params.filter!,

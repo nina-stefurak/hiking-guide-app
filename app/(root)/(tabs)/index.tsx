@@ -12,7 +12,7 @@ import {useEffect, useState} from "react";
 import NoResults from "@/components/NoResults";
 import CustomButton from "@/components/CustomButton";
 import { PaperProvider } from "react-native-paper";
-// import seed from "@/lib/seed";
+
 
 export default function Index() {
     const { user } = useGlobalContext();
