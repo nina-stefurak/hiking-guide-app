@@ -7,8 +7,8 @@ import {Card, FeaturedCard} from "@/components/Cards";
 import Filters from "@/components/Filters";
 import {useGlobalContext} from "@/lib/global-provider";
 import {useAppwrite} from "@/lib/useAppwrite";
-import {getLatestTrips, getTrips} from "@/lib/appwrite";
-import {useEffect} from "react";
+import {getGuideById, getLatestTrips, getTrips} from "@/lib/appwrite";
+import {useEffect, useState} from "react";
 import NoResults from "@/components/NoResults";
 import CustomButton from "@/components/CustomButton";
 import { PaperProvider } from "react-native-paper";
@@ -17,6 +17,7 @@ import { PaperProvider } from "react-native-paper";
 export default function Index() {
     const { user } = useGlobalContext();
     const params = useLocalSearchParams<{ query?: string; filter?: string; }>();
+    const [isGuide, setIsGuide] = useState(false);
 
     const  { data: latestTrips, loading: latestTripLoading } = useAppwrite( {
         fn: getLatestTrips,
@@ -31,6 +32,17 @@ export default function Index() {
         },
         skip: true,
     })
+
+    useEffect(() => {
+        const fetchGuide = async () => {
+            let existingGuide = await getGuideById({id: user!!.$id});
+            if (existingGuide !== null) {
+                setIsGuide(true);
+            }
+        };
+
+        fetchGuide();
+    }, [user]);
 
 
     // @ts-ignore
@@ -117,7 +129,11 @@ export default function Index() {
                     <Filters/>
                 </View>}
             />
-            <CustomButton/>
+            {
+                isGuide && (<CustomButton/>)
+            }
+
+
         </SafeAreaView>
         </PaperProvider>
     );
