@@ -4,9 +4,8 @@ import icons from "@/constants/icons";
 import images from "@/constants/images";
 import Comment from "@/components/Comment";
 import {useAppwrite} from "@/lib/useAppwrite";
-import {bookTrip, cancelBooking, deleteTripById, getTripById} from "@/lib/appwrite";
+import {avatar, bookTrip, cancelBooking, deleteTripById, getTripById} from "@/lib/appwrite";
 import {useGlobalContext} from "@/lib/global-provider";
-import {useState} from "react";
 
 const Trip = () => {
     const {id} = useLocalSearchParams<{ id?: string }>();
@@ -59,11 +58,10 @@ const Trip = () => {
     };
 
     const bookTripNow = async (tripId: string) => {
-        const currentUserId = user!!.$id;
         try {
-            await bookTrip(tripId, currentUserId);
+            await bookTrip(tripId, user);
             Alert.alert(`You booked the trip "${trip?.name}"`);
-            await refetch({ id: tripId });
+            await refetch({id: tripId});
         } catch (error) {
             Alert.alert("Error", "Failed to book the trip. Please try again.");
             console.error("Book Trip Error:", error);
@@ -75,14 +73,14 @@ const Trip = () => {
         try {
             await cancelBooking(tripId, currentUserId);
             Alert.alert(`You have canceled your booking for "${trip?.name}"`);
-            await refetch({ id: tripId });
+            await refetch({id: tripId});
         } catch (error) {
             Alert.alert("Error", "Failed to cancel the booking. Please try again.");
             console.error("Cancel Booking Error:", error);
         }
     };
 
-    const isUserBooked = trip?.bookings.includes(user?.$id || "");
+    const isUserBooked = trip?.bookings?.includes(user?.$id || "");
 
     return (
         <View>
@@ -215,13 +213,28 @@ const Trip = () => {
                         </Text>
                     </View>
 
-                    <View>
+                    <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
                             Bookings
                         </Text>
-                        <Text className="text-black-200 text-base font-rubik mt-2">
-                            {trip?.bookings}
-                        </Text>
+                        {trip?.bookings?.length > 0 && (
+                            <FlatList
+                                data={JSON.parse(trip?.bookings) as {userId: string, avatar: string, userName: string}[]}
+                                keyExtractor={(booking) => booking.userId}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                renderItem={({item}) => (
+                                    <View>
+                                        <Image
+                                            source={{uri: item.avatar}}
+                                            className="size-10 rounded-full mr-2"
+                                        />
+                                        <Text>{item.userName}</Text>
+                                    </View>
+                                )}
+                                contentContainerStyle={{paddingVertical: 10}}
+                            />
+                        )}
                     </View>
 
                     {trip?.gallery.length > 0 && (

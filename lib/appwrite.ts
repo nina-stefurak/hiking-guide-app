@@ -165,7 +165,7 @@ export async function getTripById({id}: { id: string }) {
     }
 }
 
-export async function deleteTripById({ id }: { id: string }) {
+export async function deleteTripById({id}: { id: string }) {
     try {
         const result = await databases.deleteDocument(
             config.databaseId!,
@@ -180,13 +180,25 @@ export async function deleteTripById({ id }: { id: string }) {
     }
 }
 
-export async function bookTrip(tripId: string, userId: string) {
+export async function bookTrip(tripId: string, user: any) {
     try {
         const trip = await databases.getDocument(config.databaseId!, config.tripsCollectionId!, tripId);
-        const bookings: string[] = trip.bookings || [];
-        if (!bookings.includes(userId)) {
-            bookings.push(userId);
-            const updatedTrip = await databases.updateDocument(config.databaseId!, config.tripsCollectionId!, tripId, { bookings });
+        const bookings: { userId: string; avatar: string; userName: string }[] = JSON.parse(trip.bookings) || [];
+
+        const isBooked = bookings.some(booking => booking.userId === user.$id);
+        if (!isBooked) {
+            const newBooking = {
+                userId: user.$id,
+                avatar: user.avatar,
+                userName: user.name,
+            };
+            bookings.push(newBooking);
+            const updatedTrip = await databases.updateDocument(
+                config.databaseId!,
+                config.tripsCollectionId!,
+                tripId,
+                {bookings: JSON.stringify(bookings)}
+            );
             return updatedTrip;
         }
         return trip; // User is already booked
@@ -196,13 +208,15 @@ export async function bookTrip(tripId: string, userId: string) {
     }
 }
 
+
 export async function cancelBooking(tripId: string, userId: string) {
     try {
         const trip = await databases.getDocument(config.databaseId!, config.tripsCollectionId!, tripId);
-        const bookings: string[] = trip.bookings || [];
-        if (bookings.includes(userId)) {
-            const updatedBookings = bookings.filter(id => id !== userId);
-            const updatedTrip = await databases.updateDocument(config.databaseId!, config.tripsCollectionId!, tripId, { bookings: updatedBookings });
+        const bookings: any[] = JSON.parse(trip.bookings) || [];
+        let userIds = bookings.map(it => it.userId);
+        if (userIds.includes(userId)) {
+            const updatedBookings = bookings.filter(booking => booking.userId !== userId);
+            const updatedTrip = await databases.updateDocument(config.databaseId!, config.tripsCollectionId!, tripId, {bookings: JSON.stringify(updatedBookings)});
             return updatedTrip;
         }
         return trip; // User was not booked
@@ -211,7 +225,6 @@ export async function cancelBooking(tripId: string, userId: string) {
         throw error;
     }
 }
-
 
 
 export async function createTrip({
