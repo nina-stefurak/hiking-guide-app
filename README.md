@@ -1,5 +1,3 @@
----
-
 # React Native Travel App (MountGuide)
 
 **Kros-platformowa aplikacja podróżnicza zbudowana za pomocą [Expo](https://expo.dev/) i [React Native](https://reactnative.dev/), integrująca [Appwrite](https://appwrite.io/) jako Backend-as-a-Service, zapewniając uwierzytelnianie użytkowników, przechowywanie danych, przesyłanie plików i inne.**  
