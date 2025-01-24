@@ -81,12 +81,12 @@ const CertificateForm = () => {
             const response = await createGuide(guideData);
 
             if (response) {
-                Alert.alert("Success", "Guide information saved successfully!");
+                Alert.alert("Sukces", "Jesteś przewodnikiem górskim! Teraz możesz tworzyć własne wycieczki.");
                 router.push("/profile");
             }
         } catch (error) {
             console.error("Failed to save guide information:", error);
-            Alert.alert("Error", "An error occurred while saving guide information. Please try again.");
+            Alert.alert("Błąd", "Wystąpił błąd podczas zapisywania informacji. Proszę spróbować ponownie.");
         } finally {
             setUploading(false);
         }
@@ -108,14 +108,14 @@ const CertificateForm = () => {
                         <Image source={icons.backArrow} className="size-5"/>
                     </TouchableOpacity>
                     <Text className="text-xl mr-2 text-center font-rubik-medium text-black-300">
-                        Your Certification
+                        Potwierdzenie Kwalifikacji
                     </Text>
                     <Image source={icons.bell} className="w-6 h-6"/>
                 </View>
 
                 <View className="w-full border-t border-primary-200 pt-7 mt-5">
                     <Text className="text-black-300 text-base font-rubik-bold">
-                        Guide Identification Number
+                        Numer identyfikatora
                     </Text>
                     {!!existingCertificateUrl ? (
                             <Text>{certificateNumber}</Text>
@@ -131,7 +131,7 @@ const CertificateForm = () => {
 
                 <View className="w-full border-t border-primary-200 pt-7 mt-5">
                     <Text className="text-black-300 text-base font-rubik-bold">
-                        Upload Certificate
+                        Twój certyfikat przewodnika
                     </Text>
                     <TouchableOpacity disabled={!!existingCertificateUrl} onPress={openPicker} className="mt-2">
                         {certificateFile ? (
@@ -148,7 +148,7 @@ const CertificateForm = () => {
                             />
                         ) : (
                             <View className="w-full h-16 px-4 bg-gray-200 rounded-lg flex justify-center items-center">
-                                <Text className="text-gray-500">Select a file</Text>
+                                <Text className="text-gray-500">Wybierz plik</Text>
                             </View>
                         )}
                     </TouchableOpacity>
@@ -164,7 +164,7 @@ const CertificateForm = () => {
                         } py-3 rounded-full shadow-md shadow-zinc-400 mt-7`}
                     >
                         <Text className="text-white text-lg text-center font-rubik-bold">
-                            {uploading ? "Uploading..." : "Submit & Publish"}
+                            {uploading ? "Przesyłanie..." : "Zatwierdź i opublikuj"}
                         </Text>
                     </TouchableOpacity>
                     )

@@ -31,27 +31,27 @@ const Trip = () => {
 
     const deleteTrip = (tripId: string) => {
         Alert.alert(
-            "Delete Trip",
-            "Are you sure you want to delete this trip?",
+            "Usuń wycieczkę",
+            "Czy na pewno chcesz usunąć tę wycieczkę?",
             [
-                {
-                    text: "Cancel",
-                    style: "cancel",
+            {
+                text: "Anuluj",
+                style: "cancel",
+            },
+            {
+                text: "Usuń",
+                style: "destructive",
+                onPress: async () => {
+                try {
+                    await deleteTripById({id: tripId});
+                    router.back();
+                    Alert.alert("Sukces", `Wycieczka "${trip?.name}" została usunięta.`);
+                } catch (error) {
+                    Alert.alert("Błąd", "Nie udało się usunąć wycieczki. Spróbuj ponownie.");
+                    console.error("Delete Trip Error:", error);
+                }
                 },
-                {
-                    text: "Delete",
-                    style: "destructive",
-                    onPress: async () => {
-                        try {
-                            await deleteTripById({id: tripId});
-                            router.back();
-                            Alert.alert("Success", `Trip "${trip?.name}" has been deleted.`);
-                        } catch (error) {
-                            Alert.alert("Error", "Failed to delete the trip. Please try again.");
-                            console.error("Delete Trip Error:", error);
-                        }
-                    },
-                },
+            },
             ],
             {cancelable: true}
         );
@@ -60,10 +60,10 @@ const Trip = () => {
     const bookTripNow = async (tripId: string) => {
         try {
             await bookTrip(tripId, user);
-            Alert.alert(`You booked the trip "${trip?.name}"`);
+            Alert.alert(`Zarezerwowałeś wycieczkę "${trip?.name}"`);
             await refetch({id: tripId});
         } catch (error) {
-            Alert.alert("Error", "Failed to book the trip. Please try again.");
+            Alert.alert("Błąd", "Nie udało się zarezerwować wycieczki. Spróbuj ponownie.");
             console.error("Book Trip Error:", error);
         }
     };
@@ -72,10 +72,10 @@ const Trip = () => {
         const currentUserId = user!!.$id;
         try {
             await cancelBooking(tripId, currentUserId);
-            Alert.alert(`You have canceled your booking for "${trip?.name}"`);
+            Alert.alert(`Anulowałeś rezerwację wycieczki "${trip?.name}"`);
             await refetch({id: tripId});
         } catch (error) {
-            Alert.alert("Error", "Failed to cancel the booking. Please try again.");
+            Alert.alert("Błąd", "Nie udało się anulować rezerwacji. Spróbuj ponownie.");
             console.error("Cancel Booking Error:", error);
         }
     };
@@ -139,13 +139,13 @@ const Trip = () => {
                         <View className="flex flex-row items-center gap-2">
                             <Image source={icons.star} className="size-5"/>
                             <Text className="text-black-200 text-sm mt-1 font-rubik-medium">
-                                {trip?.rating} ({trip?.reviews.length} reviews)
+                                {trip?.rating} ({trip?.reviews.length} opinie)
                             </Text>
                         </View>
 
                         <View
                             className="flex flex-row items-center justify-center bg-primary-100 rounded-full size-10 ml-7">
-                            <Image source={icons.area} className="size-4"/>
+                            <Image source={icons.area} className="size-6"/>
                         </View>
                         <Text className="text-black-300 text-sm font-rubik-medium ml-2">
                             {trip?.distance}
@@ -162,13 +162,13 @@ const Trip = () => {
                             <Image source={icons.time} className="size-4"/>
                         </View>
                         <Text className="text-black-300 text-sm font-rubik-medium ml-2">
-                            Duration
+                           16 godzin 
                         </Text>
                     </View>
 
                     <View className="w-full border-t border-primary-200 pt-7 mt-5">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Guide
+                            Przewodnik
                         </Text>
 
                         <View className="flex flex-row items-center justify-between mt-4">
@@ -197,7 +197,7 @@ const Trip = () => {
 
                     <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Overview
+                            Opis
                         </Text>
                         <Text className="text-black-200 text-base font-rubik mt-2">
                             {trip?.description}
@@ -206,7 +206,7 @@ const Trip = () => {
 
                     <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Required equipments
+                            Wymagany sprzęt
                         </Text>
                         <Text className="text-black-200 text-base font-rubik mt-2">
                             {trip?.equipments}
@@ -215,7 +215,7 @@ const Trip = () => {
 
                     <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Bookings
+                            Rezerwacje
                         </Text>
                         {trip?.bookings?.length > 0 && (
                             <FlatList
@@ -240,7 +240,7 @@ const Trip = () => {
                     {trip?.gallery.length > 0 && (
                         <View className="mt-7">
                             <Text className="text-black-300 text-xl font-rubik-bold">
-                                Gallery
+                                Zdjęcia z wycieczki
                             </Text>
                             <FlatList
                                 contentContainerStyle={{paddingRight: 20}}
@@ -261,7 +261,7 @@ const Trip = () => {
 
                     <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Location
+                            Lokalizacja
                         </Text>
                         <View className="flex flex-row items-center justify-start mt-4 gap-2">
                             <Image source={icons.location} className="w-7 h-7"/>
@@ -282,13 +282,13 @@ const Trip = () => {
                                 <View className="flex flex-row items-center">
                                     <Image source={icons.star} className="size-6"/>
                                     <Text className="text-black-300 text-xl font-rubik-bold ml-2">
-                                        {trip?.rating} ({trip?.reviews.length} reviews)
+                                        {trip?.rating} ({trip?.reviews.length} opinie)
                                     </Text>
                                 </View>
 
                                 <TouchableOpacity>
                                     <Text className="text-primary-300 text-base font-rubik-bold">
-                                        View All
+                                        Zobacz wszystkie
                                     </Text>
                                 </TouchableOpacity>
                             </View>
@@ -306,7 +306,7 @@ const Trip = () => {
                 <View className="flex flex-row items-center justify-between gap-10">
                     <View className="flex flex-col items-start">
                         <Text className="text-black-200 text-xs font-rubik-medium">
-                            Price
+                            Cena
                         </Text>
                         <Text
                             numberOfLines={1}
@@ -321,7 +321,7 @@ const Trip = () => {
                             onPress={() => deleteTrip(trip!!.$id)}
                             className="flex-1 flex flex-row items-center justify-center bg-red-500 py-3 rounded-full shadow-md shadow-zinc-400">
                             <Text className="text-white text-lg text-center font-rubik-bold">
-                                Delete
+                                Usuń wycieczkę
                             </Text>
                         </TouchableOpacity>
                     ) : isUserBooked ? (
@@ -329,7 +329,7 @@ const Trip = () => {
                             onPress={() => cancelTripBooking(trip!!.$id)}
                             className="flex-1 flex flex-row items-center justify-center bg-gray-500 py-3 rounded-full shadow-md shadow-zinc-400">
                             <Text className="text-white text-lg text-center font-rubik-bold">
-                                Cancel Booking
+                                Anuluj Rezerwację
                             </Text>
                         </TouchableOpacity>
                     ) : (
@@ -337,7 +337,7 @@ const Trip = () => {
                             onPress={() => bookTripNow(trip!!.$id)}
                             className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400">
                             <Text className="text-white text-lg text-center font-rubik-bold">
-                                Book Now
+                                Zarezerwuj
                             </Text>
                         </TouchableOpacity>
                     )}

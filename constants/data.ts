@@ -56,43 +56,43 @@ export const featuredCards = [
 ];
 
 export const difficulties = [
-  { title: "All", difficulty: "All" },
-  { title: "Easy", difficulty: "Easy" },
-  { title: "Medium", difficulty: "Medium" },
-  { title: "Hard", difficulty: "Hard" },
+  { title: "Wszystkie", difficulty: "All" },
+  { title: "Łatwy", difficulty: "Easy" },
+  { title: "Średni", difficulty: "Medium" },
+  { title: "Trudny", difficulty: "Hard" },
 ];
 
 export const settings = [
   {
-    title: "My Bookings",
+    title: "Moje rezerwacje",
     icon: icons.calendar,
   },
   {
-    title: "My Trips",
+    title: "Moje wycieczki",
     icon: icons.saveTrip,
   },
   {
-    title: "Guide Certificate",
+    title: "Certyfikat przewodnika",
     icon: icons.certificate,
   },
   {
-    title: "Profile",
+    title: "Profil",
     icon: icons.person,
   },
   {
-    title: "Payments",
+    title: "Płatności",
     icon: icons.wallet,
   },
   {
-    title: "Notifications",
+    title: "Powiadomienia",
     icon: icons.bell,
   },
   {
-    title: "Security",
+    title: "Bezpieczeństwo",
     icon: icons.shield,
   },
   {
-    title: "Language",
+    title: "Język",
     icon: icons.language,
   },
   {
@@ -100,7 +100,7 @@ export const settings = [
     icon: icons.info,
   },
   {
-    title: "Invite Friends",
+    title: "Zaproś znajomego",
     icon: icons.people,
   },
 ];

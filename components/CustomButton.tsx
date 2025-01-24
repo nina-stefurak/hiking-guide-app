@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
         margin: 24,
         right: 0,
         bottom: 50,
+        backgroundColor: "#D4E8F0",
+        opacity: 0.9,
     },
 })
 

@@ -30,15 +30,15 @@ const SignIn = () => {
                 <Image source={images.onboarding} className="w-full h-4/6" resizeMode="contain"/>
 
                 <View className="px-10">
-                    <Text className=" text-base text-center uppercase font-rubik text-black-200">Welcome to MountGuide</Text>
+                    <Text className=" text-base text-center uppercase font-rubik text-black-200">Witamy w MountGuide</Text>
                     <Text className="text-3xl font-rubik-bold text-black-200 text-center mt-2">
-                        Let's Get You Closer to {"\n"}
-                        <Text className="text-primary-300">Mountain Nature</Text>
+                        Odkryj nowe szlaki {"\n"}
+                        <Text className="text-primary-300">Zdobywaj Szczyty</Text>
                     </Text>
-                    <Text className="text-lg font-rubik text-black-200 text-center mt-12">Login to MountGuide with Google</Text>
+                    <Text className="text-lg font-rubik text-black-200 text-center mt-10">Zaloguj się za pomocą Google</Text>
                     <TouchableOpacity
                         onPress={handleLogin}
-                        className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5"
+                        className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-2"
                     >
                         <View className="flex flex-row items-center justify-center">
                             <Image
@@ -47,7 +47,7 @@ const SignIn = () => {
                                 resizeMode="contain"
                             />
                             <Text className="text-lg font-rubik-medium text-black-300 ml-2">
-                                Continue with Google
+                                Kontynuuj z Google
                             </Text>
                         </View>
                     </TouchableOpacity>

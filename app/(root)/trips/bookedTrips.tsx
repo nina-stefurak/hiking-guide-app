@@ -56,8 +56,7 @@ export default function BookedTrips() {
                                               className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center">
                                 <Image source={icons.backArrow} className="size-5"/>
                             </TouchableOpacity>
-                            <Text className="text-base mr-2 text-center font-rubik-medium text-black-300">Your Booked
-                                Trips</Text>
+                            <Text className="text-base mr-2 text-center font-rubik-medium text-black-300">Twoje zarezerwowane wycieczki</Text>
                             <Image source={icons.bell} className="w-6 h-6"/>
                         </View>
                     </View>

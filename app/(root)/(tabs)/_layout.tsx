@@ -18,7 +18,7 @@ const TabIcon = ({
     <View className="flex-1 mt-3 flex flex-col items-center">
         <Image
             source={icon}
-            tintColor={focused ? "#0061FF" : "#666876"}
+            tintColor={focused ? "#008CAE" : "#666876"}
             resizeMode="contain"
             className="size-6"
         />
@@ -59,7 +59,7 @@ const TabsLayout = () => {
                 tabBarStyle: {
                     backgroundColor: "white",
                     position: "absolute",
-                    borderTopColor: "#0061FF1A", //inny kolor
+                    borderTopColor: "#008CAE1A",
                     borderTopWidth: 1,
                     minHeight: 70,
                 },
@@ -85,18 +85,6 @@ const TabsLayout = () => {
                     ),
                 }}
             />
-            {/*{isCreateVisible && (*/}
-            {/*    <Tabs.Screen*/}
-            {/*        name="create"*/}
-            {/*        options={{*/}
-            {/*            title: "Create", // Corrected title*/}
-            {/*            headerShown: false,*/}
-            {/*            tabBarIcon: ({ focused }) => (*/}
-            {/*                <TabIcon focused={focused} icon={icons.plus} title="Create" />*/}
-            {/*            ),*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*)}*/}
 
             <Tabs.Screen
                 name="profile"

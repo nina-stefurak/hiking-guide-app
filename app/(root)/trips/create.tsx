@@ -46,7 +46,7 @@ const CreateTrip = () => {
 
     const handleSave = async () => {
         if (!name || !difficulty || !description || !price || !distance || !start || !end || !image || !geolocation) {
-            Alert.alert("Error", "Please fill out all required fields.");
+            Alert.alert("Błąd", "Proszę wypełnić wszystkie wymagane pola.");
             return;
         }
 
@@ -86,10 +86,10 @@ const CreateTrip = () => {
             });
             resetForm();
             router.back();
-            Alert.alert("Success", "Trip created successfully!");
+            Alert.alert("Sukces", "Wycieczka została pomyślnie utworzona!");
         } catch (error) {
             console.error(error);
-            Alert.alert("Error", "Failed to create the trip.");
+            Alert.alert("Błąd", "Nie udało się utworzyć wycieczki.");
         }
     };
 
@@ -107,7 +107,7 @@ const CreateTrip = () => {
                                       className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center">
                         <Image source={icons.backArrow} className="size-5"/>
                     </TouchableOpacity>
-                    <Text className="text-xl mr-2 text-center font-rubik-medium text-black-300">Create Trip</Text>
+                    <Text className="text-xl mr-2 text-center font-rubik-medium text-black-300">Utwórz Wycieczkę</Text>
                     <Image source={icons.bell} className="w-6 h-6"/>
                 </View>
 
@@ -130,7 +130,7 @@ const CreateTrip = () => {
                                     className="w-5 h-5"
                                 />
                                 <Text className="text-sm text-black-200 font-rubik-light">
-                                    Choose a photo
+                                    Wybierz zdjęcie
                                 </Text>
                             </View>
                         )}
@@ -138,16 +138,16 @@ const CreateTrip = () => {
                 </View>
 
                 {/* Name */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Name</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Nazwa</Text>
                 <TextInput
                     value={name}
                     onChangeText={setName}
-                    placeholder="Enter trip name"
+                    placeholder="Wpisz nazwę wycieczki"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
                 {/* Difficulty */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Difficulty</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Trudność</Text>
                 <RadioButton.Group
                     onValueChange={value => setDifficulty(value)}
                     value={difficulty}
@@ -155,69 +155,69 @@ const CreateTrip = () => {
                     <View className="flex flex-row items-center justify-between mb-4">
                         <View className="flex flex-row items-center space-x-2">
                             <RadioButton value="Easy"/>
-                            <Text className="text-black-200">Easy</Text>
+                            <Text className="text-black-200">Łatwy</Text>
                         </View>
                         <View className="flex flex-row items-center space-x-2">
                             <RadioButton value="Medium"/>
-                            <Text className="text-black-200">Medium</Text>
+                            <Text className="text-black-200">Średni</Text>
                         </View>
                         <View className="flex flex-row items-center space-x-2">
                             <RadioButton value="Hard"/>
-                            <Text className="text-black-200">Hard</Text>
+                            <Text className="text-black-200">Trudny</Text>
                         </View>
                     </View>
                 </RadioButton.Group>
 
 
                 {/* Description */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Description</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Opis wycieczki</Text>
                 <TextInput
                     value={description}
                     onChangeText={setDescription}
-                    placeholder="Enter description"
+                    placeholder="Wpisz opis wycieczki"
                     multiline
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
                 {/* Equipment */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Required equipment</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Wymagany sprzęt</Text>
                 <TextInput
                     value={equipments}
                     onChangeText={setEquipments}
-                    placeholder="Enter equipments"
+                    placeholder="Wpisz wymagany sprzęt"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
                 {/* Price */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Price</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Cena</Text>
                 <TextInput
                     value={price}
                     onChangeText={setPrice}
-                    placeholder="Enter price (e.g., 100)"
+                    placeholder="Wpisz cenę"
                     keyboardType="numeric"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
                 {/* Distance */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Distance</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Dystans</Text>
                 <TextInput
                     value={distance}
                     onChangeText={setDistance}
-                    placeholder="Enter distance (e.g., 10.5)"
+                    placeholder="Wpisz dystans"
                     keyboardType="numeric"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
 
                 {/* Geolocation */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Geolocation</Text>
+                <Text className="text-black-200 font-rubik-medium mb-1">Geolokalizacja</Text>
                 <TextInput
                     value={geolocation}
                     onChangeText={setGeolocation}
-                    placeholder="Enter Google Maps link"
+                    placeholder="Wklej link do Google Maps"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
                 {/* Start - end */}
                 <View className="flex flex-row items-center justify-between">
-                    <Text className="text-black-200 font-rubik-medium mb-1">Start</Text>
+                    <Text className="text-black-200 font-rubik-medium mb-1">Od</Text>
                     <TouchableOpacity onPress={() => setShowStartPicker(true)}
                                       className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                     >
@@ -234,7 +234,7 @@ const CreateTrip = () => {
                             }}
                         />
                     )}
-                    <Text className="text-black-200 font-rubik-medium mb-1">End</Text>
+                    <Text className="text-black-200 font-rubik-medium mb-1">Do</Text>
                     <TouchableOpacity onPress={() => setShowEndPicker(true)}
                                       className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                     >
@@ -254,21 +254,11 @@ const CreateTrip = () => {
                 </View>
 
                 {/* Submit and post Button */}
-                <View className="flex flex-row items-center justify-between gap-10 mb-6">
-                    <View className="flex flex-col items-start mb-1 ">
-                        <TouchableOpacity>
-                            <Text className="text-black-200 text-xs font-rubik-medium">
-                                Save
-                            </Text>
-                            <Image source={icons.save} className="size-6"/>
-                        </TouchableOpacity>
-
-                    </View>
-
+                <View className="flex flex-row items-center justify-center">
                     <TouchableOpacity onPress={handleSave}
                                       className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400">
                         <Text className="text-white text-lg text-center font-rubik-bold">
-                            Submit & Publish
+                            Zapisz i opublikuj
                         </Text>
                     </TouchableOpacity>
                 </View>

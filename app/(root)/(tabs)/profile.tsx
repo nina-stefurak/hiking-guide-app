@@ -43,10 +43,10 @@ const Profile = () => {
     const handleLogout = async () => {
         const result = await logout();
         if (result) {
-            Alert.alert("Success", "Logged out successfully");
+            Alert.alert("Sukces", "Wylogowano pomyślnie");
             await refetch();
         } else {
-            Alert.alert("Error", "Failed to logout");
+            Alert.alert("Błąd", "Nie udało się wylogować");
         }
     };
     return (
@@ -68,9 +68,9 @@ const Profile = () => {
                     </View>
                 </View>
                 <View className="flex flex-col mt-10">
-                    <SettingsItem icon={icons.calendar} title="My Bookings" onPress={()=> router.push("/trips/bookedTrips")}/>
-                    <SettingsItem icon={icons.save} title="My Trips" onPress={() => router.push("/trips/myTrips")} />
-                    <SettingsItem icon={icons.certificate} title="Guide Certificate" onPress={() => {
+                    <SettingsItem icon={icons.calendar} title="Moje rezerwacje" onPress={()=> router.push("/trips/bookedTrips")}/>
+                    <SettingsItem icon={icons.save} title="Moje wycieczki" onPress={() => router.push("/trips/myTrips")} />
+                    <SettingsItem icon={icons.certificate} title="Certyfikat przewodnika" onPress={() => {
                         // @ts-ignore
                         router.push(`/certificate/${user!!.$id}`);
                     }}/>
@@ -85,7 +85,7 @@ const Profile = () => {
                 <View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
                     <SettingsItem
                         icon={icons.logout}
-                        title="Logout"
+                        title="Wyłoguj się"
                         textStyle="text-danger"
                         showArrow={false}
                         onPress={handleLogout}
