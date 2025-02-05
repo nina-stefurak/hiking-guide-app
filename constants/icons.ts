@@ -28,6 +28,7 @@ import save from  "@/assets/icons/save.png";
 import saveTrip from  "@/assets/icons/saveTrip.png";
 import time from  "@/assets/icons/time.png";
 import certificate from  "@/assets/icons/certificate.png";
+import pin from "@/assets/icons/pin.png";
 
 export default {
     google,
@@ -60,4 +61,5 @@ export default {
     saveTrip,
     time,
     certificate,
+    pin,
 };

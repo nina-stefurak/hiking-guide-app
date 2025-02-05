@@ -7,6 +7,8 @@ import {router} from "expo-router";
 import * as DocumentPicker from "expo-document-picker";
 import {useGlobalContext} from "@/lib/global-provider";
 import {RadioButton} from 'react-native-paper';
+import Map from "@/components/Map";
+import 'react-native-get-random-values';
 
 const CreateTrip = () => {
     const [name, setName] = useState("");
@@ -178,45 +180,9 @@ const CreateTrip = () => {
                     multiline
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
-                {/* Equipment */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Wymagany sprzęt</Text>
-                <TextInput
-                    value={equipments}
-                    onChangeText={setEquipments}
-                    placeholder="Wpisz wymagany sprzęt"
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                />
 
-                {/* Price */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Cena</Text>
-                <TextInput
-                    value={price}
-                    onChangeText={setPrice}
-                    placeholder="Wpisz cenę"
-                    keyboardType="numeric"
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                />
-
-                {/* Distance */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Dystans</Text>
-                <TextInput
-                    value={distance}
-                    onChangeText={setDistance}
-                    placeholder="Wpisz dystans"
-                    keyboardType="numeric"
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                />
-
-                {/* Geolocation */}
-                <Text className="text-black-200 font-rubik-medium mb-1">Geolokalizacja</Text>
-                <TextInput
-                    value={geolocation}
-                    onChangeText={setGeolocation}
-                    placeholder="Google Maps"
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
-                />
                 {/* Start - end */}
-                <View className="flex flex-row items-center justify-between">
+                <View className="flex flex-row items-center justify-between mt-1 mb-1">
                     <Text className="text-black-200 font-rubik-medium mb-1">Od</Text>
                     <TouchableOpacity onPress={() => setShowStartPicker(true)}
                                       className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
@@ -251,6 +217,49 @@ const CreateTrip = () => {
                             }}
                         />
                     )}
+                </View>
+
+                {/* Equipment */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Wymagany sprzęt</Text>
+                <TextInput
+                    value={equipments}
+                    onChangeText={setEquipments}
+                    placeholder="Wpisz wymagany sprzęt"
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                />
+
+                {/* Price */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Cena</Text>
+                <TextInput
+                    value={price}
+                    onChangeText={setPrice}
+                    placeholder="Wpisz cenę"
+                    keyboardType="numeric"
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                />
+
+                {/* Distance */}
+                <Text className="text-black-200 font-rubik-medium mb-1">Dystans</Text>
+                <TextInput
+                    value={distance}
+                    onChangeText={setDistance}
+                    placeholder="Wpisz dystans"
+                    keyboardType="numeric"
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                />
+
+                {/* Geolocation */}
+                <View className="mt-2 space-y-2">
+                    <Text className="text-black-200 font-rubik-medium mb-1">Miejsce docelowe</Text>
+                    <TextInput
+                        value={geolocation}
+                        onChangeText={setGeolocation}
+                        placeholder="Google Maps"
+                        className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
+                    />
+                    <View className="h-64 mb-8">
+                        <Map />
+                    </View>
                 </View>
 
                 {/* Submit and post Button */}

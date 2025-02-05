@@ -262,7 +262,7 @@ const Trip = () => {
 
                     <View className="mt-7">
                         <Text className="text-black-300 text-xl font-rubik-bold">
-                            Lokalizacja
+                            Miejsce docelowe
                         </Text>
                         <View className="flex flex-row items-center bg-transparent mt-4 gap-2 h-[300px]">
                             <Map />

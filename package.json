@@ -39,6 +39,8 @@
     "react-native": "0.76.5",
     "react-native-appwrite": "^0.6.0",
     "react-native-gesture-handler": "~2.20.2",
+    "react-native-get-random-values": "^1.11.0",
+    "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-maps": "1.18.0",
     "react-native-maps-directions": "^1.9.0",
     "react-native-paper": "^5.13.1",
