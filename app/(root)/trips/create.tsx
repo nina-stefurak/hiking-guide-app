@@ -212,7 +212,7 @@ const CreateTrip = () => {
                 <TextInput
                     value={geolocation}
                     onChangeText={setGeolocation}
-                    placeholder="Wklej link do Google Maps"
+                    placeholder="Google Maps"
                     className="border border-gray-300 rounded-lg px-3 py-2 mb-4"
                 />
                 {/* Start - end */}

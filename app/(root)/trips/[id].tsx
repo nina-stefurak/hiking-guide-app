@@ -6,6 +6,7 @@ import Comment from "@/components/Comment";
 import {useAppwrite} from "@/lib/useAppwrite";
 import {avatar, bookTrip, cancelBooking, deleteTripById, getTripById} from "@/lib/appwrite";
 import {useGlobalContext} from "@/lib/global-provider";
+import Map from "@/components/Map";
 
 const Trip = () => {
     const {id} = useLocalSearchParams<{ id?: string }>();
@@ -263,17 +264,10 @@ const Trip = () => {
                         <Text className="text-black-300 text-xl font-rubik-bold">
                             Lokalizacja
                         </Text>
-                        <View className="flex flex-row items-center justify-start mt-4 gap-2">
-                            <Image source={icons.location} className="w-7 h-7"/>
-                            <Text className="text-black-200 text-sm font-rubik-medium">
-                                {trip?.address}
-                            </Text>
+                        <View className="flex flex-row items-center bg-transparent mt-4 gap-2 h-[300px]">
+                            <Map />
                         </View>
 
-                        <Image
-                            source={images.map}
-                            className="h-52 w-full mt-5 rounded-xl"
-                        />
                     </View>
 
                     {trip?.reviews.length > 0 && (
