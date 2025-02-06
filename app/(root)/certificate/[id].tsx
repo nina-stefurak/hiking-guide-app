@@ -11,6 +11,7 @@ const CertificateForm = () => {
     const [certificateNumber, setCertificateNumber] = useState("");
     const {user} = useGlobalContext();
     const [certificateFile, setCertificateFile] = useState(null);
+    const [certificateNumberError, setCertificateNumberError] = useState("");
     const [existingCertificateUrl, setExistingCertificateUrl] = useState<URL>();
     const [uploading, setUploading] = useState(false);
 
@@ -49,9 +50,28 @@ const CertificateForm = () => {
         }
     };
 
+    // format identyfikatora: PG-YYYY-NNNN
+    const validateCertificateNumber = (number: string): boolean => {
+        const regex = /^PG-\d{4}-\d{4}$/;
+        return regex.test(number);
+    };
+    const handleCertificateNumberChange = (value: string) => {
+        setCertificateNumber(value);
+        if (value && !validateCertificateNumber(value)) {
+            setCertificateNumberError("Nieprawidłowy format identyfikatora. Poprawny format: PG-YYYY-NNNN");
+        } else {
+            setCertificateNumberError("");
+        }
+    };
+
     const handleSave = async () => {
         if (!certificateNumber || (!certificateFile && !existingCertificateUrl)) {
             Alert.alert("Error", "Please fill out all required fields.");
+            return;
+        }
+        // Sprawdzenie poprawności formatu identyfikatora
+        if (!validateCertificateNumber(certificateNumber)) {
+            Alert.alert("Błąd", "Nieprawidłowy format identyfikatora. Poprawny format: PG-YYYY-NNNN");
             return;
         }
 
@@ -114,18 +134,21 @@ const CertificateForm = () => {
                 </View>
 
                 <View className="w-full border-t border-primary-200 pt-7 mt-5">
-                    <Text className="text-black-300 text-base font-rubik-bold">
-                        Numer identyfikatora
-                    </Text>
+                    <Text className="text-black-300 text-base font-rubik-bold">Numer identyfikatora</Text>
                     {!!existingCertificateUrl ? (
-                            <Text>{certificateNumber}</Text>
-                       ): (
-                        <TextInput
-                            onChangeText={setCertificateNumber}
-                            value={certificateNumber}
-                            placeholder="Enter your identification number"
-                            className="border border-gray-300 rounded-lg px-3 py-2 mb-4 mt-2"
-                        />
+                        <Text>{certificateNumber}</Text>
+                    ) : (
+                        <>
+                            <TextInput
+                                onChangeText={handleCertificateNumberChange}
+                                value={certificateNumber}
+                                placeholder="PG-YYYY-NNNN"
+                                className="border border-gray-300 rounded-lg px-3 py-2 mb-2 mt-2"
+                            />
+                            {certificateNumberError ? (
+                                <Text className="text-red-500 text-sm">{certificateNumberError}</Text>
+                            ) : null}
+                        </>
                     )}
                 </View>
 

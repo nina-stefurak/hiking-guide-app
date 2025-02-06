@@ -91,8 +91,15 @@ export async function getCurrentUser() {
         }
 
         return null;
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        if (
+            error.message &&
+            error.message.includes("missing scope") &&
+            error.message.includes("account")
+        ) {
+            return null;
+        }
+        console.error("getCurrentUser error:", error);
         return null;
     }
 }
