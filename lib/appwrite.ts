@@ -126,18 +126,15 @@ export async function getTripsForGuide(
     }
 ) {
     try {
-        // Initialize query with filtering by guideId and ordering by creation date descending
         const queries = [
             Query.equal('guide', filter.guideId),
             Query.orderDesc('$createdAt')
         ];
 
-        // Apply limit and offset if provided
         if (limit !== undefined) {
             queries.push(Query.limit(limit));
         }
 
-        // Execute the query to list documents in the trips collection
         const result = await databases.listDocuments(
             config.databaseId!,
             config.tripsCollectionId!,

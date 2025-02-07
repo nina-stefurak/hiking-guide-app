@@ -4,7 +4,7 @@ import icons from "@/constants/icons";
 import images from "@/constants/images";
 import Comment from "@/components/Comment";
 import {useAppwrite} from "@/lib/useAppwrite";
-import {avatar, bookTrip, cancelBooking, deleteTripById, getTripById} from "@/lib/appwrite";
+import {bookTrip, cancelBooking, deleteTripById, getTripById} from "@/lib/appwrite";
 import {useGlobalContext} from "@/lib/global-provider";
 import Map from "@/components/Map";
 

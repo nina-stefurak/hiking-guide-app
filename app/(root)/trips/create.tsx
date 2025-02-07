@@ -72,7 +72,7 @@ const CreateTrip = () => {
 
         try {
             let existingGuide = await getGuideById({id: user!!.$id});
-            console.log("Found existing giude:" + JSON.stringify(existingGuide));
+            console.log("Found existing guide:" + JSON.stringify(existingGuide));
             await createTrip({
                 name,
                 difficulty,
